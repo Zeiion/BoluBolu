@@ -86,7 +86,6 @@ public final class DataStream implements Runnable {
 			String type = res[0];
 			String toId = res[2];
 			message = new Date() + "```" + message;
-			System.out.println(message);
 			if (type.equals("toFriend")) {
 				if (ChatServer.getClientUser().containsKey(toId)) {
 					ChatServer.getClientUser().get(toId).send(message);

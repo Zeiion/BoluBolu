@@ -10,7 +10,6 @@ import java.security.NoSuchAlgorithmException;
  */
 public final class Verify implements Serializable {
 
-
 	/**
 	 * 用户名
 	 */

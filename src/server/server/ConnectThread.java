@@ -63,7 +63,7 @@ public final class ConnectThread implements Runnable {
 					// 获取聊天记录
 					String res[] = field.split("```", 4);
 					if (res.length == 4) {
-						/*
+						/**
 						 * res[0]：getChatRecord、res[1]：fromId、res[2]：toId、
 						 * res[3]：isGroup
 						 */
@@ -76,7 +76,7 @@ public final class ConnectThread implements Runnable {
 					// 替换前缀
 					String res[] = field.split("```", 3);
 					if (res.length == 3) {
-						/*
+						/**
 						 * res[0]：setTag、res[1]：myId、res[2]：newTag
 						 */
 						DataBaseConnection con = new DataBaseConnection();
