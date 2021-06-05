@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
@@ -286,6 +288,15 @@ public final class ChatWindow extends JFrame {
 		send2FriendListener.setTempChat(this);
 		sendButton.addActionListener(send2FriendListener);
 		inputPanel.add(sendButton);
+
+		//监听回车事件
+		input.addKeyListener(new KeyAdapter() {
+			@Override public void keyTyped(KeyEvent e) {
+				if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+					send2FriendListener.enter();
+				}
+			}
+		});
 
 		// 获取群成员部分
 		if (isGroup) {
