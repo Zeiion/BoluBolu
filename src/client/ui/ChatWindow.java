@@ -259,7 +259,13 @@ public final class ChatWindow extends JFrame {
 				: MainWindow.getFriend().containsKey(res[1]) ? MainWindow.getFriend().get(res[1]).getFriendName()
 					: ("陌生人:" + res[1]);
 			if (res.length == 4) {
-				addMessage(fromName, res[0], res[3], true);
+				if (res[1].equals(selfID)) {
+					//如果是自己发的消息
+					addMessage(fromName, res[0], res[3], true, true);
+				} else {
+					//如果是别人发的消息
+					addMessage(fromName, res[0], res[3], true, false);
+				}
 			}
 		}
 
@@ -353,15 +359,22 @@ public final class ChatWindow extends JFrame {
 		this.messageNum = messageNum;
 	}
 
-	public void addMessage(String userName, String sendTime, String message, boolean isOld) {
-		String head = "<html><p style =\"font-size:10px;color:#0000ff\">";
+	public void addMessage(String userName, String sendTime, String message, boolean isOld, boolean isSelf) {
+		String head = "<html><p style =\"font-size:12px;color:#0d171f\">";
 		String tail = "<br/></html>";
-		sendTime = " <span style=\"color:#cc9966\"> " + sendTime + "</span> ";
+		sendTime = " <span style=\"font-size:10px;color:#d39325\"> " + sendTime + "</span> ";
 		message =
-			"<html><p style =\"font-size:14px;" + (isOld ? "color:#969696" : "") + "\">" + message + "</p><br/></html>";
-		mainBox.add(new JLabel(head + userName + sendTime + tail));
-		mainBox.add(new JLabel(message));
-
+			"<html><p style =\"font-size:14px;" + (isOld ? "color:#acacac" : "") + "\">" + message + "</p><br/></html>";
+		//聊天记录分立
+		if (isSelf) {
+			JLabel jLabel = new JLabel(head + sendTime + userName + tail, JLabel.RIGHT);
+			mainBox.add(jLabel);
+			JLabel jLabel2 = new JLabel(message, JLabel.RIGHT);
+			mainBox.add(jLabel2);
+		} else {
+			mainBox.add(new JLabel(head + userName + sendTime + tail));
+			mainBox.add(new JLabel(message));
+		}
 
 		//设置新消息自动滑到底
 		chatScroll.getViewport().setViewPosition(new Point(0, chatScroll.getHeight() + 100000));

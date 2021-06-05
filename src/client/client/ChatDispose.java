@@ -3,8 +3,7 @@ package client.client;
 import client.ui.ChatWindow;
 import client.ui.FriendBlock;
 import client.ui.MainWindow;
-
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.HashMap;
 
 /**
@@ -56,7 +55,7 @@ public final class ChatDispose {
 				// 展示在对应好友聊天面板中
 				if (model.containsKey(fromId)) {
 					model.get(fromId)
-						.addMessage(MainWindow.getFriend().get(fromId).getFriendName(), res[0], message, false);
+						.addMessage(MainWindow.getFriend().get(fromId).getFriendName(), res[0], message, false, false);
 				}
 			}
 			// 接收到的消息是从某个群发送来的
@@ -67,7 +66,7 @@ public final class ChatDispose {
 					String fromString =
 						MainWindow.getFriend().containsKey(fromId) ? MainWindow.getFriend().get(fromId).getFriendName()
 							: ("陌生人:" + fromId);
-					model.get(toId).addMessage(fromString, res[0], message, false);
+					model.get(toId).addMessage(fromString, res[0], message, false, false);
 				}
 			}
 		} // 接收的内容是为了改变用户状态（在线/离线）
@@ -79,7 +78,7 @@ public final class ChatDispose {
 					f.setFriendStatus(res[1]);
 					if (res[1].equals("在线")) {
 						for (int i = 0; i < MainWindow.getFriendPanel().getComponentCount(); i++) {
-							FriendBlock fb =  (FriendBlock) MainWindow.getFriendPanel().getComponent(i);
+							FriendBlock fb = (FriendBlock)MainWindow.getFriendPanel().getComponent(i);
 							if (fb.getFriendStatus().equals("离线")) {
 								Rectangle rfb = fb.getBounds();
 								Rectangle rf = f.getBounds();
@@ -90,8 +89,8 @@ public final class ChatDispose {
 							}
 						}
 					} else if (res[1].equals("离线")) {
-						for (int i = MainWindow.getFriendPanel().getComponentCount()-1; i >= 0; i--) {
-							FriendBlock fb =  (FriendBlock) MainWindow.getFriendPanel().getComponent(i);
+						for (int i = MainWindow.getFriendPanel().getComponentCount() - 1; i >= 0; i--) {
+							FriendBlock fb = (FriendBlock)MainWindow.getFriendPanel().getComponent(i);
 							if (fb.getFriendStatus().equals("在线")) {
 								Rectangle rfb = fb.getBounds();
 								Rectangle rf = f.getBounds();

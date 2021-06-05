@@ -172,7 +172,7 @@ class Send2FriendListener implements ActionListener {
 	 */
 	public void enter() {
 		if (this.message.getText().trim().length() != 0) {
-			tempChat.addMessage(userName, new Date().toString(), this.message.getText(), false);
+			tempChat.addMessage(userName, new Date().toString(), this.message.getText(), false, true);
 			ChatThread.getDataStream().send(this.message.getText(), friendID, isGroup);
 			this.message.setText("");
 		} else {
