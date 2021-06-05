@@ -15,11 +15,7 @@ public final class ChatThread implements Runnable {
 
 	private Socket userSocket;
 
-	private static ChatServer chatServerInfo;
-
-	static {
-		chatServerInfo = new ChatServer(ServerInfo.CHAT_PORT);
-	}
+	private static ChatServer chatServerInfo = new ChatServer(ServerInfo.CHAT_PORT);
 
 	public ChatThread(String userId) {
 		this.userId = userId;

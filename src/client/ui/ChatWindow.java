@@ -4,6 +4,7 @@ import client.client.ServerService;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -148,11 +149,11 @@ public final class ChatWindow extends JFrame {
 					maxBtn.setBounds(getWidth() - 40, 0, 20, 20);
 					minBtn.setBounds(getWidth() - 60, 0, 20, 20);
 					headPanel.setBounds(0, 0, getWidth(), 85);
-					friendTag.setBounds(55, 31, getWidth() - 115, 15);
-					chatScroll.setBounds(0, 85, getWidth() - 139, getHeight() - 223);
-					inputPanel.setBounds(0, getHeight() - 138, getWidth() - 139, 200);
-					input.setBounds(0, 0, inputPanel.getWidth(), 106);
-					inputScroll.setBounds(0, 0, inputPanel.getWidth(), 106);
+					friendTag.setBounds(55, 31, getWidth() - 400, 15);
+					chatScroll.setBounds(0, 85, getWidth(), getHeight() - 223);
+					inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
+					input.setBounds(0, 0, inputPanel.getWidth(), 170);
+					inputScroll.setBounds(0, 0, inputPanel.getWidth(), 170);
 					sendButton.setBounds(inputPanel.getWidth() - 91, inputPanel.getHeight() - 35, 70, 24);
 					adapter.setCanMove(true);
 				}
@@ -262,6 +263,9 @@ public final class ChatWindow extends JFrame {
 			}
 		}
 
+		// 设置自动滑到底
+		chatScroll.getViewport().setViewPosition(new Point(0, chatScroll.getHeight() + 100000));
+
 		/**
 		 * 输入框
 		 */
@@ -357,5 +361,9 @@ public final class ChatWindow extends JFrame {
 			"<html><p style =\"font-size:14px;" + (isOld ? "color:#969696" : "") + "\">" + message + "</p><br/></html>";
 		mainBox.add(new JLabel(head + userName + sendTime + tail));
 		mainBox.add(new JLabel(message));
+
+
+		//设置新消息自动滑到底
+		chatScroll.getViewport().setViewPosition(new Point(0, chatScroll.getHeight() + 100000));
 	}
 }
