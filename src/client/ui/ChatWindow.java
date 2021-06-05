@@ -103,7 +103,7 @@ public final class ChatWindow extends JFrame {
 		closeBtn.setIcon(new ImageIcon("./res/UI/chatUI/closeOrigin.png"));
 		closeBtn.setRolloverIcon(new ImageIcon("./res/UI/chatUI/closeHover.png"));
 		closeBtn.setPressedIcon(new ImageIcon("./res/UI/chatUI/closeClick.png"));
-		closeBtn.addActionListener(new CloseListener(this));
+		closeBtn.addActionListener(new CloseListener(this, friendID, isGroup));
 		/**
 		 * 最大化按钮
 		 */

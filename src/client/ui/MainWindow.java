@@ -67,10 +67,20 @@ public final class MainWindow extends JFrame implements ActionListener {
 	 * 群聊列表的HashMap
 	 */
 	private static HashMap<String, GroupBlock> group = new HashMap<>();
+
+	public static HashMap<String, ChatWindow> getWithFriend() {
+		return withFriend;
+	}
+
 	/**
 	 * 好友聊天窗的HashMap
 	 */
 	private static HashMap<String, ChatWindow> withFriend = new HashMap<>();
+
+	public static HashMap<String, ChatWindow> getWithGroup() {
+		return withGroup;
+	}
+
 	/**
 	 * 群聊聊天窗的HashMap
 	 */
@@ -371,6 +381,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 				}
 
 				@Override public void mouseClicked(MouseEvent e) {
+					//点击好友，不会打开多个聊天框
 					if (e.getClickCount() == 2) {
 						if (withFriend.get(friendID) == null) {
 							withFriend.put(friendID,
@@ -380,7 +391,6 @@ public final class MainWindow extends JFrame implements ActionListener {
 							ChatWindow  c =  withFriend.get(friendID);
 							c.setAlwaysOnTop(true);
 							c.setAlwaysOnTop(false);
-
 						}
 
 					}
@@ -428,6 +438,10 @@ public final class MainWindow extends JFrame implements ActionListener {
 							withGroup.put(groupID,
 								new ChatWindow(userInfo.getUserId(), userInfo.getUserName(), groupID, groupAvatar,
 									groupName, groupTag, true));
+						} else {
+							ChatWindow  c =  withGroup.get(groupID);
+							c.setAlwaysOnTop(true);
+							c.setAlwaysOnTop(false);
 						}
 
 					}
