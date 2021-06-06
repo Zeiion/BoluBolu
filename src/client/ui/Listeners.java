@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -171,8 +172,9 @@ class Send2FriendListener implements ActionListener {
 	 * 发送消息
 	 */
 	public void enter() {
+		SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (this.message.getText().trim().length() != 0) {
-			tempChat.addMessage(userName, new Date().toString(), this.message.getText(), false, true);
+			tempChat.addMessage(userName, sDateFormat.format(new Date()), this.message.getText(), false, true);
 			ChatThread.getDataStream().send(this.message.getText(), friendID, isGroup);
 			this.message.setText("");
 		} else {

@@ -362,9 +362,9 @@ public final class ChatWindow extends JFrame {
 	public void addMessage(String userName, String sendTime, String message, boolean isOld, boolean isSelf) {
 		String head = "<html><p style =\"font-size:12px;color:#0d171f\">";
 		String tail = "<br/></html>";
-		sendTime = " <span style=\"font-size:10px;color:#d39325\"> " + sendTime + "</span> ";
-		message =
-			"<html><p style =\"font-size:14px;" + (isOld ? "color:#acacac" : "") + "\">" + message + "</p><br/></html>";
+		sendTime = " <span style=\"font-size:10px;color:#d39325\">&nbsp;" + sendTime + "&nbsp;</span> ";
+		message = "<html><p style =\"font-size:14px;" + (isOld ? "color:#acacac" : "") + "\">&nbsp;" + message
+			+ "&nbsp;</p><br/></html>";
 		//聊天记录分立
 		if (isSelf) {
 			JLabel jLabel = new JLabel(head + sendTime + userName + tail, JLabel.RIGHT);
@@ -372,7 +372,7 @@ public final class ChatWindow extends JFrame {
 			JLabel jLabel2 = new JLabel(message, JLabel.RIGHT);
 			mainBox.add(jLabel2);
 		} else {
-			mainBox.add(new JLabel(head + userName + sendTime + tail));
+			mainBox.add(new JLabel(head + "&nbsp;" + userName + sendTime + tail));
 			mainBox.add(new JLabel(message));
 		}
 
