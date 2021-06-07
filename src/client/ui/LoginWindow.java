@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.geom.RoundRectangle2D;
+import java.io.FileInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -252,7 +253,47 @@ public final class LoginWindow extends JFrame {
 		password.addActionListener(loginListener);
 
 		loginBtn.addActionListener(loginListener);
-		//增加记住密码
+		//读取记录
+		try {
+			FileInputStream in = new FileInputStream("./res/save/saveInfo.txt");
+			int t;
+			String username = "";
+			String userPassword = "";
+			//对用户名密码进行解密
+			while ((t = in.read()) != -1) {
+				if (t == '\n') {
+					break;
+				}
+				t += 1;
+				t ^= 'Z';
+				username = username + (char)t;
+			}
+			if (!username.equals("")) {
+				while ((t = in.read()) != -1) {
+					if (t == '\n') {
+						break;
+					}
+					t -= 1;
+					t ^= 'Y';
+					userPassword = userPassword + (char)t;
+				}
+				userId.setForeground(Color.BLACK);
+				userId.setText(username);
+				password.setEchoChar('•');
+				password.setForeground(Color.BLACK);
+				password.setText(userPassword);
+				t = (char)in.read();
+				rememberPwdCheckBox.setSelected(true);
+				if (t == '1') {
+					autoLoginCheckBox.setSelected(true);
+					//自动登录
+					loginListener.actionPerformed(null);
+				}
+			}
+			in.close();
+		} catch (Exception e) {
+			System.out.println("读取记录失败！");
+		}
 	}
 
 	/**
