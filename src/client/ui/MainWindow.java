@@ -249,10 +249,11 @@ public final class MainWindow extends JFrame implements ActionListener {
 		 *加好友按钮
 		 */
 		ImageIcon m = new ImageIcon("./res/UI/mainUI/addFriend.png");
-		Image mm = m.getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT);
+		Image mm = m.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 		ImageIcon m2 = new ImageIcon(mm);
 		addFriends = new JButton(m2);
-		addFriends.setBounds(280, 50, 60, 60);
+		addFriends.setBounds(310, 100, 30, 30);
+		addFriends.setBorder(new EmptyBorder(0, 0, 0, 0));
 		addFriends.setContentAreaFilled(false);
 		addFriends.addActionListener((e) -> {
 			String friendId = JOptionPane.showInputDialog("请输入对方账号！");
@@ -267,6 +268,17 @@ public final class MainWindow extends JFrame implements ActionListener {
 			} else if (dataCheck.addFriend(userInfo.getUserId(), friendId)) {
 				userInfo.getFriends().add(dataCheck.checkUser(friendId));
 				JOptionPane.showMessageDialog(null, "添加好友成功！");
+				//更新界面
+				FriendsOrGroups userFriend = dataCheck.checkUser(friendId);
+				String friendAvatar = userFriend.getAvatar();
+				String friendName = userFriend.getName();
+				String friendTag = userFriend.getTag();
+				String friendID = userFriend.getId();
+				String friendStatus = userFriend.getStatus();
+				friend.put(friendID, new FriendBlock(friendAvatar, friendName, friendTag, friendID, friendStatus));
+				//每个宽高
+				friend.get(friendID).setBounds(0, (userInfo.getFriends().size() - 1) * 66, 350, 66);
+				friendPanel.updateUI();
 			} else {
 				JOptionPane.showMessageDialog(null, "添加好友失败！");
 			}
@@ -298,7 +310,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		tagBtn.setText(tag);
 		tagBtn.setToolTipText(tag);
 		tagTextField = new JTextField();
-		tagTextField.setBounds(120, 110, 190, 20);
+		tagTextField.setBounds(115, 100, 190, 20);
 		tagTextField.setVisible(false);
 		tagBtn.addActionListener(new ActionListener() {
 
