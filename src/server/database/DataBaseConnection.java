@@ -1,11 +1,15 @@
 package server.database;
 
+import static server.config.ServerInfo.DB_NAME;
+import static server.config.ServerInfo.DB_USER_NAME;
+import static server.config.ServerInfo.DB_USER_PASSWORD;
+import static server.config.ServerInfo.SQL_PORT;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import server.config.ServerInfo;
 
 /**
  * 连接数据库
@@ -14,9 +18,9 @@ public final class DataBaseConnection {
 	/**
 	 * 数据库连接对象
 	 */
-	private Connection conn = null;
+	Connection conn = null;
 
-	private PreparedStatement psql = null;
+	PreparedStatement psql = null;
 
 	/**
 	 * 数据库结果
@@ -28,17 +32,16 @@ public final class DataBaseConnection {
 	 */
 	public DataBaseConnection() {
 		// 数据库驱动名
-		String dbDriver = "com.mysql.cj.jdbc.Driver";
+		String dbDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
 		// 数据库所在域
-		String dbUrl = "jdbc:mysql://" + ServerInfo.MYSQL_IP + ":" + ServerInfo.MYSQL_PORT + "/" + ServerInfo.DB_NAME
-			+ "?useUnicode=true&characterEncoding=UTF-8";
+		String dbUrl = "jdbc:sqlserver://localhost:" + SQL_PORT + ";databaseName=" + DB_NAME;
 
 		try {
 			// 加载驱动
 			Class.forName(dbDriver);
 			// 获取连接对象
-			conn = DriverManager.getConnection(dbUrl, ServerInfo.DB_USER_NAME, ServerInfo.DB_USER_PASSWORD);
+			conn = DriverManager.getConnection(dbUrl, DB_USER_NAME, DB_USER_PASSWORD);
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("无法连接到数据库：" + e.getMessage());
 			e.printStackTrace();
