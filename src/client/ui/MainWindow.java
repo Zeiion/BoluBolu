@@ -17,7 +17,10 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -36,18 +39,18 @@ import javax.swing.SwingConstants;
 import server.config.UserInfo.FriendsOrGroups;
 
 /**
- * 用户主窗口
- * 显示主界面、用户的相关信息、好友等
+ * 用户主窗口 显示主界面、用户的相关信息、好友等
  *
  * @author Zeiion
- * @version 1.1
+ * @author lyj
+ * @version 1.2
  */
 public final class MainWindow extends JFrame implements ActionListener {
 
-	private JPanel userPanel, listPanel,  groupPanel;
+	private JPanel userPanel, listPanel, groupPanel;
 	private static JPanel friendPanel;
 	private JButton minBtn, closeBtn, tagBtn, friendBtn, groupBtn;
-	private JLabel  nameLabel;
+	private JLabel nameLabel;
 	private JButton avatar;
 	private JTextField tagTextField;
 	private ButtonGroup friendGroup;
@@ -59,6 +62,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 	public static JPanel getFriendPanel() {
 		return friendPanel;
 	}
+
 	/**
 	 * 好友列表的HashMap
 	 */
@@ -130,7 +134,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		userPanel = new JPanel();
 		userPanel.setLayout(null);
 		userPanel.setBounds(0, 0, 350, 150);
-		userPanel.setBackground(new Color(122,180,202));
+		userPanel.setBackground(new Color(122, 180, 202));
 
 		/**
 		 * logo
@@ -172,7 +176,6 @@ public final class MainWindow extends JFrame implements ActionListener {
 			}
 		});
 
-
 		/**
 		 * 头像按钮
 		 */
@@ -184,8 +187,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 				.getScaledInstance(80, 80, Image.SCALE_DEFAULT);
 		avatar.setIcon(new ImageIcon(headPic));
 		avatar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				jfc.showDialog(new JLabel(), "选择");
@@ -194,12 +196,13 @@ public final class MainWindow extends JFrame implements ActionListener {
 					System.out.println("文件夹:" + file.getAbsolutePath());
 				} else if (file.isFile()) {
 					System.out.println("文件:" + file.getAbsolutePath());
-					Image i = new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+					Image i =
+						new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
 					avatar.setIcon(new ImageIcon(i));
 					//复制图片
 					String output = "./res/avatar/User/" + userInfo.getUserId() + ".jpg";
-					FileInputStream fis=null;
-					FileOutputStream fos=null;
+					FileInputStream fis = null;
+					FileOutputStream fos = null;
 					try {
 						//指明需要复制的图片的路径
 						File srcFile = new File(file.getAbsolutePath());
@@ -213,20 +216,20 @@ public final class MainWindow extends JFrame implements ActionListener {
 						while ((len = fis.read(buffer)) != -1) {
 							fos.write(buffer, 0, len);
 						}
-					}catch (IOException e1){
+					} catch (IOException e1) {
 						e1.printStackTrace();
-					}finally{
-						if(fos!=null){
-							try{
+					} finally {
+						if (fos != null) {
+							try {
 								fos.close();
-							}catch(IOException e1){
+							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
 						}
-						if(fis!=null){
-							try{
+						if (fis != null) {
+							try {
 								fis.close();
-							}catch(IOException e1){
+							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
 						}
@@ -393,9 +396,8 @@ public final class MainWindow extends JFrame implements ActionListener {
 		friendPanel.setBounds(0, 0, 350, friendsNumber * 66);
 		friendPanel.setPreferredSize(new Dimension(330, friendsNumber * 66));
 		friendBtnGroup = new ButtonGroup();
-		Collections.sort(userInfo.getFriends(),new Comparator<FriendsOrGroups>() {
-			@Override
-			public int compare(FriendsOrGroups f1, FriendsOrGroups f2) {
+		Collections.sort(userInfo.getFriends(), new Comparator<FriendsOrGroups>() {
+			@Override public int compare(FriendsOrGroups f1, FriendsOrGroups f2) {
 				if (f2.getStatus().equals("在线")) {
 					return 1;
 				} else {
@@ -435,10 +437,10 @@ public final class MainWindow extends JFrame implements ActionListener {
 					if (e.getClickCount() == 2) {
 						if (withFriend.get(friendID) == null) {
 							withFriend.put(friendID,
-									new ChatWindow(userInfo.getUserId(), userInfo.getUserName(), friendID, friendAvatar,
-											friendName, friendTag, false));
+								new ChatWindow(userInfo.getUserId(), userInfo.getUserName(), friendID, friendAvatar,
+									friendName, friendTag, false));
 						} else {
-							ChatWindow  c =  withFriend.get(friendID);
+							ChatWindow c = withFriend.get(friendID);
 							c.setAlwaysOnTop(true);
 							c.setAlwaysOnTop(false);
 						}
@@ -489,7 +491,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 								new ChatWindow(userInfo.getUserId(), userInfo.getUserName(), groupID, groupAvatar,
 									groupName, groupTag, true));
 						} else {
-							ChatWindow  c =  withGroup.get(groupID);
+							ChatWindow c = withGroup.get(groupID);
 							c.setAlwaysOnTop(true);
 							c.setAlwaysOnTop(false);
 						}
