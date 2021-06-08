@@ -34,12 +34,22 @@ class ExitListener implements ActionListener {
  */
 class CloseListener implements ActionListener {
 	private JFrame tempWindow;
+	private String friendID;
+	private  Boolean isGroup;
 
-	public CloseListener(JFrame tempWindow) {
+	public CloseListener(JFrame tempWindow, String friendID, Boolean isGroup) {
 		this.tempWindow = tempWindow;
+		this.friendID = friendID;
+		this.isGroup = isGroup;
 	}
 
 	@Override public void actionPerformed(ActionEvent e) {
+		//不移除的话，关闭聊天框后，无法再打开
+		if (!isGroup) {
+			MainWindow.getWithFriend().remove(friendID);
+		} else {
+			MainWindow.getWithGroup().remove(friendID);
+		}
 		tempWindow.dispose();
 	}
 }
