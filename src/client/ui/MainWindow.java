@@ -21,19 +21,11 @@ import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JRootPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+
+import jdk.nashorn.internal.scripts.JO;
 import server.config.UserInfo.FriendsOrGroups;
+import server.database.DataCheck;
 
 /**
  * 用户主窗口
@@ -55,6 +47,8 @@ public final class MainWindow extends JFrame implements ActionListener {
 	private User userInfo;
 	private JScrollPane friendScrollPane;
 	private ButtonGroup friendBtnGroup, groupBtnGroup;
+	private JButton addFriends;
+	private DataCheck dataCheck = new DataCheck();
 
 	public static JPanel getFriendPanel() {
 		return friendPanel;
@@ -94,6 +88,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		userPanel.add(avatar);
 		userPanel.add(nameLabel);
 		userPanel.add(tagBtn);
+		userPanel.add(addFriends);
 		userPanel.add(tagTextField);
 		listPanel.add(friendBtn);
 		listPanel.add(friendRadio);
@@ -174,6 +169,35 @@ public final class MainWindow extends JFrame implements ActionListener {
 				.getScaledInstance(80, 80, Image.SCALE_DEFAULT);
 		avatar.setIcon(new ImageIcon(headPic));
 		avatar.addActionListener(this);
+
+		/**
+		*加好友按钮
+		*/
+		ImageIcon m = new ImageIcon("./res/UI/mainUI/addFriend.png");
+		Image mm = m.getImage().getScaledInstance(60,60,Image.SCALE_DEFAULT);
+		ImageIcon m2 = new ImageIcon(mm);
+		addFriends = new JButton(m2);
+		addFriends.setBounds(280,50,60,60);
+		addFriends.setContentAreaFilled(false);
+		addFriends.addActionListener((e)->{
+			String friendId = JOptionPane.showInputDialog("请输入对方账号！");
+			if (!dataCheck.checkRegister(friendId)){
+				JOptionPane.showMessageDialog(null,"用户不存在！");
+			}else if (friendId.equals(userInfo.getUserId())){
+				JOptionPane.showMessageDialog(null,"不能加自己为好友！");
+				return;
+			}else if(dataCheck.checkFriend(userInfo.getUserId(),friendId)){
+				JOptionPane.showMessageDialog(null,"好友关系已存在！");
+				return;
+			}
+			else if (dataCheck.addFriend(userInfo.getUserId(),friendId)){
+				userInfo.getFriends().add(dataCheck.checkUser(friendId));
+				JOptionPane.showMessageDialog(null,"添加好友成功！");
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"添加好友失败！");
+			}
+		});
 
 		/**
 		 * 用户名

@@ -13,6 +13,34 @@ import server.server.ChatServer;
  */
 public final class DataCheck {
 
+	public boolean checkRegister(String userId){
+		try{
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql = "select * from dw_user where user_id = (?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,userId);
+			return dataCon.psql.executeQuery().next();
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public FriendsOrGroups checkUser(String userId){
+		try{
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql = "select * from dw_user where user_id = (?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,userId);
+			ResultSet resultSet = dataCon.psql.executeQuery();
+			if (!resultSet.next()){
+				return null;
+			}
+			return (UserInfo.FriendsOrGroups) resultSet.getObject(1);
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public Boolean isLoginSuccess(String userId, String userPassword) {
 		Boolean isSuccess = new Boolean(false);
 		try {
@@ -31,6 +59,69 @@ public final class DataCheck {
 		}
 		return isSuccess;
 	}
+
+	public boolean register(String username, String userPassword){
+		try{
+
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql ="insert into dw_user(user_name,user_password) values (?,?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,username);
+			dataCon.psql.setString(2,userPassword);
+			dataCon.psql.executeUpdate();
+			//dataCon.putToDatabase(sql);
+			return true;
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean checkFriend(String userId,String friendId){
+		try{
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql = "select * from dw_useruser where myself = (?) and myfriend = (?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,userId);
+			dataCon.psql.setString(2,friendId);
+			return dataCon.psql.executeQuery().next();
+		}catch (Exception e){
+			return true;
+		}
+	}
+	public boolean addFriend(String userId,String friendId){
+		try{
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql = "insert into dw_useruser values(?,?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,userId);
+			dataCon.psql.setString(2,friendId);
+			dataCon.psql.executeUpdate();
+			return true;
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public String getPassword(String userId){
+		try {
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql = "select user_password from dw_user where user_id = (?) or user_name = (?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,userId);
+			dataCon.psql.setString(2,userId);
+			ResultSet resultSet = dataCon.psql.executeQuery();
+			if (!resultSet.next()){
+				return null;
+			}
+			return resultSet.getString(1);
+		}catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
 
 	private static Vector<String> getMemberFromId(String sql, String row) {
 		// 与数据库创建连接

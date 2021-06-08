@@ -39,7 +39,7 @@ public final class Verify implements Serializable {
 	/**
 	 * 加密密码
 	 */
-	private String getMd5(String str) {
+	public static String getMd5(String str) {
 		String mdPassword = "";
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -53,5 +53,14 @@ public final class Verify implements Serializable {
 			System.out.println("MD5加密失败：" + e.getMessage());
 		}
 		return mdPassword;
+	}
+	public static String convertMD5(String inStr){
+
+		char[] a = inStr.toCharArray();
+		for (int i = 0; i < a.length; i++){
+			a[i] = (char) (a[i] ^ 't');
+		}
+		String s = new String(a);
+		return s;
 	}
 }

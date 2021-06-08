@@ -14,9 +14,9 @@ public final class DataBaseConnection {
 	/**
 	 * 数据库连接对象
 	 */
-	private Connection conn = null;
+	Connection conn = null;
 
-	private PreparedStatement psql = null;
+	PreparedStatement psql = null;
 
 	/**
 	 * 数据库结果
@@ -28,17 +28,16 @@ public final class DataBaseConnection {
 	 */
 	public DataBaseConnection() {
 		// 数据库驱动名
-		String dbDriver = "com.mysql.cj.jdbc.Driver";
+		String dbDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
 		// 数据库所在域
-		String dbUrl = "jdbc:mysql://" + ServerInfo.MYSQL_IP + ":" + ServerInfo.MYSQL_PORT + "/" + ServerInfo.DB_NAME
-			+ "?useUnicode=true&characterEncoding=UTF-8";
+		String dbUrl = "jdbc:sqlserver://localhost:1433;DatabaseName=bolubolu";
 
 		try {
 			// 加载驱动
 			Class.forName(dbDriver);
 			// 获取连接对象
-			conn = DriverManager.getConnection(dbUrl, ServerInfo.DB_USER_NAME, ServerInfo.DB_USER_PASSWORD);
+			conn = DriverManager.getConnection(dbUrl, "sa","sa123");
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("无法连接到数据库：" + e.getMessage());
 			e.printStackTrace();
