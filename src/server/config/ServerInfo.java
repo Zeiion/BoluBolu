@@ -20,27 +20,27 @@ public final class ServerInfo {
 	public final static int VERIFY_PORT = 7777;
 
 	/**
-	 * Mysql 服务器地址
+	 * 数据库服务器地址 暂废弃
 	 */
-	public final static String MYSQL_IP = "127.0.0.1";
+	public final static String SQL_IP = "127.0.0.1";
 
 	/**
-	 *  Mysql 端口号
+	 * 数据库端口号
 	 */
-	public final static int MYSQL_PORT = 3306;
+	public final static int SQL_PORT = 1433;
 
 	/**
 	 * Mysql 数据库名称
 	 */
-	public final static String DB_NAME = "new_schema";
+	public final static String DB_NAME = "new";
 
 	/**
 	 * Mysql 数据库连接用户名
 	 */
-	public final static String DB_USER_NAME = "root";
+	public final static String DB_USER_NAME = "sa";
 
 	/**
 	 * Mysql 数据库连接密码
 	 */
-	public final static String DB_USER_PASSWORD = "123456";
+	public final static String DB_USER_PASSWORD = "123";
 }

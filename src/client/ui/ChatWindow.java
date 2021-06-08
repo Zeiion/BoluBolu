@@ -2,9 +2,11 @@ package client.ui;
 
 import client.client.ServerService;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -23,6 +25,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 聊天窗口
@@ -63,18 +66,11 @@ public final class ChatWindow extends JFrame {
 		 */
 		avatar = (GetAvatar
 			.getAvatarImage(friendID, isGroup ? "./res/avatar/Group/" : "./res/avatar/User/", friendAvatarString))
-			.getImage().getScaledInstance(41, 37, Image.SCALE_DEFAULT);
+			.getImage().getScaledInstance(90, 90, Image.SCALE_DEFAULT);
 		setIconImage(avatar);
 
 		setSize(750, 700);
 		init();
-
-		this.add(closeBtn);
-		this.add(maxBtn);
-		this.add(minBtn);
-		this.add(headPanel);
-		this.add(chatScroll);
-		this.add(inputPanel);
 
 		/**
 		 * 群聊框
@@ -106,7 +102,7 @@ public final class ChatWindow extends JFrame {
 		closeBtn.setIcon(new ImageIcon("./res/UI/chatUI/closeOrigin.png"));
 		closeBtn.setRolloverIcon(new ImageIcon("./res/UI/chatUI/closeHover.png"));
 		closeBtn.setPressedIcon(new ImageIcon("./res/UI/chatUI/closeClick.png"));
-		closeBtn.addActionListener(new CloseListener(this));
+		closeBtn.addActionListener(new CloseListener(this, friendID, isGroup));
 		/**
 		 * 最大化按钮
 		 */
@@ -121,9 +117,9 @@ public final class ChatWindow extends JFrame {
 		maxBtn.setRolloverIcon(new ImageIcon("./res/UI/chatUI/maxHover.png"));
 		maxBtn.setPressedIcon(new ImageIcon("./res/UI/chatUI/maxClick.png"));
 		maxBtn.addActionListener(new ActionListener() {
-			//最大化，改变窗体大小
 			@Override public void actionPerformed(ActionEvent e) {
 				if (getExtendedState() == JFrame.NORMAL) {
+					//最大化，改变窗体大小
 					maxBtn.setIcon(new ImageIcon("./res/UI/chatUI/restoreOrigin.png"));
 					maxBtn.setRolloverIcon(new ImageIcon("./res/UI/chatUI/restoreHover.png"));
 					maxBtn.setPressedIcon(new ImageIcon("./res/UI/chatUI/restoreClick.png"));
@@ -131,16 +127,17 @@ public final class ChatWindow extends JFrame {
 					closeBtn.setBounds(getWidth() - 20, 0, 20, 20);
 					maxBtn.setBounds(getWidth() - 40, 0, 20, 20);
 					minBtn.setBounds(getWidth() - 60, 0, 20, 20);
-					headPanel.setBounds(0, 0, getWidth(), 85);
-					friendTag.setBounds(51, 31, headPanel.getWidth() - 515, 15);
-					chatScroll.setBounds(0, 85, getWidth(), getHeight() - 223);
+					headPanel.setBounds(0, 0, getWidth(), 120);
+					friendTag.setBounds(71, 51, headPanel.getWidth() - 455, 15);
+					chatScroll.setBounds(0, 120, getWidth(), getHeight() - 320);
 
 					inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
 					input.setBounds(0, 0, inputPanel.getWidth(), 170);
 					inputScroll.setBounds(0, 0, inputPanel.getWidth(), 170);
-					sendButton.setBounds(inputPanel.getWidth() - 100, inputPanel.getHeight() - 35, 70, 24);
+					sendButton.setBounds(inputPanel.getWidth() - 80, inputPanel.getHeight() - 28, 70, 24);
 					adapter.setCanMove(false);
 				} else if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
+					//最小化，改变窗体大小
 					maxBtn.setIcon(new ImageIcon("./res/UI/chatUI/maxOrigin.png"));
 					maxBtn.setRolloverIcon(new ImageIcon("./res/UI/chatUI/maxHover.png"));
 					maxBtn.setPressedIcon(new ImageIcon("./res/UI/chatUI/maxClick.png"));
@@ -148,13 +145,13 @@ public final class ChatWindow extends JFrame {
 					closeBtn.setBounds(getWidth() - 20, 0, 20, 20);
 					maxBtn.setBounds(getWidth() - 40, 0, 20, 20);
 					minBtn.setBounds(getWidth() - 60, 0, 20, 20);
-					headPanel.setBounds(0, 0, getWidth(), 85);
+					headPanel.setBounds(0, 0, getWidth(), 120);
 					friendTag.setBounds(55, 31, getWidth() - 400, 15);
-					chatScroll.setBounds(0, 85, getWidth(), getHeight() - 223);
+					chatScroll.setBounds(0, 120, getWidth(), getHeight() - 320);
 					inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
 					input.setBounds(0, 0, inputPanel.getWidth(), 170);
 					inputScroll.setBounds(0, 0, inputPanel.getWidth(), 170);
-					sendButton.setBounds(inputPanel.getWidth() - 91, inputPanel.getHeight() - 35, 70, 24);
+					sendButton.setBounds(inputPanel.getWidth() - 80, inputPanel.getHeight() - 28, 70, 24);
 					adapter.setCanMove(true);
 				}
 			}
@@ -173,7 +170,6 @@ public final class ChatWindow extends JFrame {
 		minBtn.setRolloverIcon(new ImageIcon("./res/UI/chatUI/minHover.png"));
 		minBtn.setPressedIcon(new ImageIcon("./res/UI/chatUI/minClick.png"));
 		minBtn.addActionListener(new ActionListener() {
-
 			@Override public void actionPerformed(ActionEvent e) {
 				setExtendedState(JFrame.ICONIFIED);
 			}
@@ -181,9 +177,9 @@ public final class ChatWindow extends JFrame {
 		/**
 		 * 顶部条 拖动可以移动窗口
 		 */
-		headPanel = new JPanel();
+		headPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/grandeur-light.png"));
 		headPanel.setLayout(null);
-		headPanel.setBounds(0, 0, 750, 85);
+		headPanel.setBounds(0, 0, 750, 120);
 		headPanel.setBackground(new Color(122, 180, 202));
 		adapter = new WindowMoveAdapter();
 		headPanel.addMouseMotionListener(adapter);
@@ -213,7 +209,7 @@ public final class ChatWindow extends JFrame {
 		 * 好友头像
 		 */
 		friendAvatar = new JLabel(new ImageIcon(friendAvatarString));
-		friendAvatar.setBounds(10, 6, 100, 100);
+		friendAvatar.setBounds(15, 10, 90, 90);
 		friendAvatar.setIcon(new ImageIcon(avatar));
 		headPanel.add(friendAvatar);
 
@@ -221,29 +217,32 @@ public final class ChatWindow extends JFrame {
 		 * 好友名字
 		 */
 		friendName = new JLabel(friendNameString);
-		friendName.setBounds(105, 6, 70, 22);
+		friendName.setBounds(120, 25, 70, 22);
+		friendName.setFont(new Font("黑体", Font.BOLD, 20));
 		headPanel.add(friendName);
 
 		/**
 		 * 好友个性签名
 		 */
 		friendTag = new JLabel(friendTagString);
-		friendTag.setBounds(105, 31, 200, 15);
+		friendTag.setBounds(120, 65, 200, 15);
+		friendTag.setFont(new Font("宋体", Font.BOLD, 14));
 		headPanel.add(friendTag);
 
 		/**
 		 * 主面板（背景、滚动条等）
 		 */
 		mainBox = Box.createVerticalBox();
-		mainBox.setBackground(new Color(0, 0, 0));
+		//		mainBox.setOpaque(true);
 		chatScroll = new JScrollPane(mainBox);
+		chatScroll.setBorder(new EmptyBorder(0, 0, 0, 0));
 		//滚动条
 		JScrollBar jsb = chatScroll.getVerticalScrollBar();
 		jsb.setUI(new ScrollBar());
 		chatScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		// 设置滚动速率
 		jsb.setUnitIncrement(20);
-		chatScroll.setBounds(0, 85, 750, 415);
+		chatScroll.setBounds(0, 120, 750, 380);
 
 		/**
 		 * 获取聊天记录
@@ -275,24 +274,30 @@ public final class ChatWindow extends JFrame {
 		/**
 		 * 输入框
 		 */
-		inputPanel = new JPanel();
+		inputPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/grandeur-windy.png"));
 		inputPanel.setLayout(null);
 		inputPanel.setBounds(0, 500, 750, 200);
 		input = new JTextArea();
+		input.setBorder(new EmptyBorder(0, 0, 0, 0));
 		input.setBounds(0, 0, 750, 170);
 		input.setLineWrap(true);
 		inputScroll = new JScrollPane(input);
 		inputScroll.setBounds(0, 0, 750, 170);
+		inputScroll.setBorder(new EmptyBorder(0, 0, 0, 0));
 		inputScroll.getVerticalScrollBar().setUI(new ScrollBar());
 		inputScroll.getVerticalScrollBar().setUnitIncrement(15);
 		inputPanel.add(inputScroll);
 
+		/**
+		 * 发送按钮
+		 */
 		sendButton = new JButton("发送");
 		sendButton.setBorderPainted(false);
 		sendButton.setFocusPainted(false);
 		sendButton.setMargin(new Insets(0, 0, 0, 0));
-		sendButton.setBackground(new Color(122, 180, 202));
-		sendButton.setBounds(600, 176, 70, 24);
+		sendButton.setBackground(new Color(238, 238, 238));
+		sendButton.setBounds(670, 172, 70, 24);
+		sendButton.setFont(new Font("黑体", Font.BOLD, 15));
 		Send2FriendListener send2FriendListener = new Send2FriendListener(selfName, friendID, isGroup);
 		send2FriendListener.setMessage(input);
 		send2FriendListener.setTempChat(this);
@@ -341,7 +346,7 @@ public final class ChatWindow extends JFrame {
 			groupScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			// 设置滚动速率
 			groupScroll.getVerticalScrollBar().setUnitIncrement(16);
-			groupScroll.setBounds(750, 85, 141, 449);
+			groupScroll.setBounds(750, 120, 141, 449);
 		} else {
 			closeBtn.setBounds(730, 0, 20, 20);
 			maxBtn.setBounds(710, 0, 20, 20);
@@ -349,6 +354,12 @@ public final class ChatWindow extends JFrame {
 			setSize(750, 700);
 		}
 
+		headPanel.add(closeBtn);
+		headPanel.add(maxBtn);
+		headPanel.add(minBtn);
+		add(headPanel);
+		add(chatScroll);
+		add(inputPanel);
 	}
 
 	public int getMessageNum() {
@@ -360,11 +371,11 @@ public final class ChatWindow extends JFrame {
 	}
 
 	public void addMessage(String userName, String sendTime, String message, boolean isOld, boolean isSelf) {
-		String head = "<html><p style =\"font-size:12px;color:#0d171f\">";
-		String tail = "<br/></html>";
-		sendTime = " <span style=\"font-size:10px;color:#d39325\"> " + sendTime + "</span> ";
-		message =
-			"<html><p style =\"font-size:14px;" + (isOld ? "color:#acacac" : "") + "\">" + message + "</p><br/></html>";
+		String head = "<html><div style =\"font-size:12px;color:#0d171f\">";
+		String tail = "</div></html>";
+		sendTime = " <span style=\"font-size:10px;color:#d39325\">&nbsp;" + sendTime + "&nbsp;</span>";
+		message = "<html><div style =\"font-size:14px;background-color:white;padding:2px 8px;border:1px solid;" + (isOld
+			? "color:#acacac" : "") + "\">" + message + "</div><br/></html>";
 		//聊天记录分立
 		if (isSelf) {
 			JLabel jLabel = new JLabel(head + sendTime + userName + tail, JLabel.RIGHT);
@@ -372,7 +383,7 @@ public final class ChatWindow extends JFrame {
 			JLabel jLabel2 = new JLabel(message, JLabel.RIGHT);
 			mainBox.add(jLabel2);
 		} else {
-			mainBox.add(new JLabel(head + userName + sendTime + tail));
+			mainBox.add(new JLabel(head + "&nbsp;" + userName + sendTime + tail));
 			mainBox.add(new JLabel(message));
 		}
 

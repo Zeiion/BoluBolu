@@ -1,11 +1,15 @@
 package server.database;
 
+import static server.config.ServerInfo.DB_NAME;
+import static server.config.ServerInfo.DB_USER_NAME;
+import static server.config.ServerInfo.DB_USER_PASSWORD;
+import static server.config.ServerInfo.SQL_PORT;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import server.config.ServerInfo;
 
 /**
  * 连接数据库
@@ -31,13 +35,13 @@ public final class DataBaseConnection {
 		String dbDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
 		// 数据库所在域
-		String dbUrl = "jdbc:sqlserver://localhost:1433;DatabaseName=bolubolu";
+		String dbUrl = "jdbc:sqlserver://localhost:" + SQL_PORT + ";databaseName=" + DB_NAME;
 
 		try {
 			// 加载驱动
 			Class.forName(dbDriver);
 			// 获取连接对象
-			conn = DriverManager.getConnection(dbUrl, "sa","sa123");
+			conn = DriverManager.getConnection(dbUrl, DB_USER_NAME, DB_USER_PASSWORD);
 		} catch (SQLException | ClassNotFoundException e) {
 			System.out.println("无法连接到数据库：" + e.getMessage());
 			e.printStackTrace();
@@ -97,9 +101,5 @@ public final class DataBaseConnection {
 		} catch (SQLException e) {
 			System.out.println("数据库连接关闭异常：" + e.getMessage());
 		}
-	}
-
-	public static void main(String[] args) {
-		new DataBaseConnection();
 	}
 }

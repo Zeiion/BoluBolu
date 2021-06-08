@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -32,12 +34,22 @@ class ExitListener implements ActionListener {
  */
 class CloseListener implements ActionListener {
 	private JFrame tempWindow;
+	private String friendID;
+	private  Boolean isGroup;
 
-	public CloseListener(JFrame tempWindow) {
+	public CloseListener(JFrame tempWindow, String friendID, Boolean isGroup) {
 		this.tempWindow = tempWindow;
+		this.friendID = friendID;
+		this.isGroup = isGroup;
 	}
 
 	@Override public void actionPerformed(ActionEvent e) {
+		//不移除的话，关闭聊天框后，无法再打开
+		if (!isGroup) {
+			MainWindow.getWithFriend().remove(friendID);
+		} else {
+			MainWindow.getWithGroup().remove(friendID);
+		}
 		tempWindow.dispose();
 	}
 }
@@ -118,13 +130,41 @@ class LoginListener implements ActionListener {
 				// 验证用户或密码是否正确
 				Object isLoginSuccess = ServerService.isLogin(userIdString, userPasswordString);
 
-				System.out.println("当前登录状态：" + (isLoginSuccess == "true" ? "成功" : "失败"));
+				System.out.println("当前登录状态：" + (isLoginSuccess.toString().equals("true") ? "成功" : "失败"));
 				System.out.println("当前登录的用户账号：" + userIdString);
 				if (isLoginSuccess != null) {
 					String loginResult = isLoginSuccess.toString();
 					if ("true".equals(loginResult)) {
 						if (isRemember) {
-							//增加记住密码操作
+							//加密
+							try {
+								FileOutputStream out = new FileOutputStream("./res/save/saveInfo.txt");
+								//写入文件
+								for (int i = 0; i < userIdString.length(); i++) {
+									char t = userIdString.charAt(i);
+									t ^= 'Z';
+									t -= 1;
+									out.write(t);
+								}
+								out.write('\n');
+								for (int i = 0; i < userPasswordString.length(); i++) {
+									char t = userPasswordString.charAt(i);
+									t ^= 'Y';
+									t += 1;
+									out.write(t);
+								}
+								out.write('\n');
+								//设置是否自动登录
+								if (isAutoLog) {
+									out.write('1');
+								} else {
+									out.write('0');
+								}
+								out.close();
+							} catch (Exception e) {
+								System.out.println("登录监听器错误：" + e);
+							}
+
 						}
 						tempWindow.dispose();
 
@@ -171,8 +211,9 @@ class Send2FriendListener implements ActionListener {
 	 * 发送消息
 	 */
 	public void enter() {
+		SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if (this.message.getText().trim().length() != 0) {
-			tempChat.addMessage(userName, new Date().toString(), this.message.getText(), false, true);
+			tempChat.addMessage(userName, sDateFormat.format(new Date()), this.message.getText(), false, true);
 			ChatThread.getDataStream().send(this.message.getText(), friendID, isGroup);
 			this.message.setText("");
 		} else {
