@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -24,6 +25,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 聊天窗口
@@ -69,13 +71,6 @@ public final class ChatWindow extends JFrame {
 
 		setSize(750, 700);
 		init();
-
-		this.add(closeBtn);
-		this.add(maxBtn);
-		this.add(minBtn);
-		this.add(headPanel);
-		this.add(chatScroll);
-		this.add(inputPanel);
 
 		/**
 		 * 群聊框
@@ -182,7 +177,7 @@ public final class ChatWindow extends JFrame {
 		/**
 		 * 顶部条 拖动可以移动窗口
 		 */
-		headPanel = new JPanel();
+		headPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/grandeur-light.png"));
 		headPanel.setLayout(null);
 		headPanel.setBounds(0, 0, 750, 120);
 		headPanel.setBackground(new Color(122, 180, 202));
@@ -238,7 +233,9 @@ public final class ChatWindow extends JFrame {
 		 * 主面板（背景、滚动条等）
 		 */
 		mainBox = Box.createVerticalBox();
+		//		mainBox.setOpaque(true);
 		chatScroll = new JScrollPane(mainBox);
+		chatScroll.setBorder(new EmptyBorder(0, 0, 0, 0));
 		//滚动条
 		JScrollBar jsb = chatScroll.getVerticalScrollBar();
 		jsb.setUI(new ScrollBar());
@@ -277,14 +274,16 @@ public final class ChatWindow extends JFrame {
 		/**
 		 * 输入框
 		 */
-		inputPanel = new JPanel();
+		inputPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/grandeur-windy.png"));
 		inputPanel.setLayout(null);
 		inputPanel.setBounds(0, 500, 750, 200);
 		input = new JTextArea();
+		input.setBorder(new EmptyBorder(0, 0, 0, 0));
 		input.setBounds(0, 0, 750, 170);
 		input.setLineWrap(true);
 		inputScroll = new JScrollPane(input);
 		inputScroll.setBounds(0, 0, 750, 170);
+		inputScroll.setBorder(new EmptyBorder(0, 0, 0, 0));
 		inputScroll.getVerticalScrollBar().setUI(new ScrollBar());
 		inputScroll.getVerticalScrollBar().setUnitIncrement(15);
 		inputPanel.add(inputScroll);
@@ -296,8 +295,9 @@ public final class ChatWindow extends JFrame {
 		sendButton.setBorderPainted(false);
 		sendButton.setFocusPainted(false);
 		sendButton.setMargin(new Insets(0, 0, 0, 0));
-		sendButton.setBackground(new Color(122, 180, 202));
+		sendButton.setBackground(new Color(238, 238, 238));
 		sendButton.setBounds(670, 172, 70, 24);
+		sendButton.setFont(new Font("黑体", Font.BOLD, 15));
 		Send2FriendListener send2FriendListener = new Send2FriendListener(selfName, friendID, isGroup);
 		send2FriendListener.setMessage(input);
 		send2FriendListener.setTempChat(this);
@@ -354,6 +354,12 @@ public final class ChatWindow extends JFrame {
 			setSize(750, 700);
 		}
 
+		headPanel.add(closeBtn);
+		headPanel.add(maxBtn);
+		headPanel.add(minBtn);
+		add(headPanel);
+		add(chatScroll);
+		add(inputPanel);
 	}
 
 	public int getMessageNum() {

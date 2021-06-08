@@ -36,6 +36,7 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import server.config.UserInfo.FriendsOrGroups;
 
 /**
@@ -103,6 +104,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 
 		init();
 		setLayout(null);
+
 		userPanel.add(closeBtn);
 		userPanel.add(minBtn);
 		userPanel.add(avatar);
@@ -131,7 +133,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		/**
 		 * 用户板块
 		 */
-		userPanel = new JPanel();
+		userPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/grandeur.png"));
 		userPanel.setLayout(null);
 		userPanel.setBounds(0, 0, 350, 150);
 		userPanel.setBackground(new Color(122, 180, 202));
@@ -146,7 +148,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		 */
 		closeBtn = new JButton("");
 		closeBtn.setMargin(new Insets(0, 0, 0, 0));
-		closeBtn.setBounds(325, 0, 25, 25);
+		closeBtn.setBounds(330, 0, 20, 20);
 		closeBtn.setContentAreaFilled(false);
 		closeBtn.setBorderPainted(false);
 		closeBtn.setFocusPainted(false);
@@ -161,7 +163,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		 */
 		minBtn = new JButton();
 		minBtn.setMargin(new Insets(0, 0, 0, 0));
-		minBtn.setBounds(300, 0, 25, 25);
+		minBtn.setBounds(310, 0, 20, 20);
 		minBtn.setContentAreaFilled(false);
 		minBtn.setBorderPainted(false);
 		minBtn.setFocusPainted(false);
@@ -320,6 +322,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		listPanel = new JPanel();
 		listPanel.setLayout(null);
 		listPanel.setBounds(0, 150, 350, 600);
+		listPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		listPanel.setBackground(Color.WHITE);
 
 		/**
@@ -504,6 +507,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 			groupBtnGroup.add(group.get(groupID));
 		}
 		friendScrollPane = new JScrollPane(friendPanel);
+		friendScrollPane.setBorder(new EmptyBorder(1, 0, 0, 0));
 		// 设置滚动条样式
 		friendScrollPane.getVerticalScrollBar().setUI(new ScrollBar());
 		// 设置滚动速率
