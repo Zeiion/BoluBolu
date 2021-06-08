@@ -95,9 +95,10 @@ public final class ConnectThread implements Runnable {
 	@Override public void run() {
 		try {
 			// 对象输入输出流
-			ObjectInputStream in = new ObjectInputStream(userSocket.getInputStream());
-			ObjectOutputStream out = new ObjectOutputStream(userSocket.getOutputStream());
+
 			while (true) {
+				ObjectInputStream in = new ObjectInputStream(userSocket.getInputStream());
+				ObjectOutputStream out = new ObjectOutputStream(userSocket.getOutputStream());
 				// 接收一个对象流
 				Object obj = in.readObject();
 

@@ -39,7 +39,7 @@ public final class Verify implements Serializable {
 	/**
 	 * 加密密码
 	 */
-	private String getMd5(String str) {
+	public static String getMd5(String str) {
 		String mdPassword = "";
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");

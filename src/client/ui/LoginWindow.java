@@ -1,12 +1,10 @@
 package client.ui;
 
 import com.sun.awt.AWTUtilities;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
+import server.config.Verify;
+import server.database.DataCheck;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -36,7 +34,8 @@ public final class LoginWindow extends JFrame {
 	private JButton loginBtn, findPwdBtn, registerBtn, closeBtn, minBtn;
 	private JCheckBox rememberPwdCheckBox, autoLoginCheckBox;
 	private JPanel mainPanel;
-
+	private JFrame changingPassword = new JFrame();
+	DataCheck dataCheck = new DataCheck();
 	/**
 	 * 初始化界面
 	 */
@@ -220,6 +219,26 @@ public final class LoginWindow extends JFrame {
 		registerBtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg) {
 				//注册账号
+				try{
+					if (String.valueOf(password.getPassword()).equals("密码")){
+						JOptionPane.showMessageDialog(null,"请输入密码！");
+						return;
+					}
+					if (String.valueOf(password.getPassword()).equals("账号")){
+						JOptionPane.showMessageDialog(null,"请输入账号！");
+					}
+					if (dataCheck.checkRegister(userId.getText().trim())){
+						JOptionPane.showMessageDialog(null,"用户已存在！");
+						return;
+					}
+					if (dataCheck.register(userId.getText().trim(), Verify.getMd5(String.valueOf(password.getPassword())))){
+						JOptionPane.showMessageDialog(null,"注册成功！");
+					}else {
+						JOptionPane.showMessageDialog(null,"注册失败！");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 
 		});
@@ -234,11 +253,74 @@ public final class LoginWindow extends JFrame {
 		findPwdBtn.setText("找回密码");
 		findPwdBtn.addActionListener(new ActionListener() {
 
-			@Override public void actionPerformed(ActionEvent e) {
-				//找回密码
-			}
+				//找回密码'
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO 自动生成的方法存根
+//
+					JTextField pressingPassword = new JTextField();
+					JButton putup = new JButton("");
+					ImageIcon backGround = new ImageIcon("./res/UI/img/loginBackground.jpg");
+					JLabel label = new JLabel(backGround);
+					label.setBounds(0, 0, backGround.getIconWidth(), backGround.getIconHeight());
+					JPanel imagePanel = new JPanel();
+					imagePanel = (JPanel) changingPassword.getContentPane();
+					imagePanel.setOpaque(false);
+					changingPassword.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+					//changingPassword.add(imagePanel);
+					imagePanel.setLayout(new FlowLayout());
+					changingPassword.setSize(backGround.getIconWidth(), backGround.getIconHeight());
+					//mainPanel.add(changingPassword,-1);
+					changingPassword.setLayout(null);
+					changingPassword.setLocationRelativeTo(null);
+					changingPassword.setAlwaysOnTop(true);
+					changingPassword.setTitle("找回密码");
+					changingPassword.setIconImage(Toolkit.getDefaultToolkit().createImage("./res/UI/mainUI/logo.png"));
+					changingPassword.setVisible(true);
+					changingPassword.add(pressingPassword);
+					changingPassword.setFocusable(true);
+					pressingPassword.setBounds(70, 170, 230, 35);
+					pressingPassword.setText("请输入需要找回密码的账号！");
+					pressingPassword.addFocusListener(new FocusListener() {
+						@Override
+						public void focusGained(FocusEvent e) {
+							if (pressingPassword.getText().trim().equals("请输入需要找回密码的账号！")) {
+								pressingPassword.setText("");
+							}
+						}
 
+						@Override
+						public void focusLost(FocusEvent e) {
+							if (pressingPassword.getText().trim().equals("")) {
+								pressingPassword.setText("请输入需要找回密码的账号！");
+							}
+						}
+					});
+					ImageIcon i = new ImageIcon("./res/UI/loginUI/radioTick.png");
+					Image i1 = i.getImage().getScaledInstance(35, 35, SCALE_SMOOTH);
+					i = new ImageIcon(i1);
+					putup.setIcon(i);
+					changingPassword.add(putup);
+					putup.setBounds(325, 170, 35, 35);
+					putup.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							if (pressingPassword.getText().trim().equals("请输入需要找回密码的账号！")) {
+								JOptionPane.showMessageDialog(changingPassword,"请输入账号！");
+							}else{
+									if (dataCheck.getPassword(pressingPassword.getText())!=null){
+										JOptionPane.showMessageDialog(changingPassword,"您的密码是："+dataCheck.getPassword(pressingPassword.getText()).trim());
+									}else{
+										JOptionPane.showMessageDialog(changingPassword,"找回密码失败！");
+									}
+							}
+						}
+					});
+				}
 		});
+		/**
+		 * 找回密码界面
+		 */
 
 		/**
 		 * 登录监听器
@@ -320,6 +402,7 @@ public final class LoginWindow extends JFrame {
 		mainPanel.add(rememberPwd);
 		mainPanel.add(autoLogin);
 		mainPanel.add(loginBtn);
+		//mainPanel.add(changingPassword);
 		WindowMoveAdapter adapter = new WindowMoveAdapter();
 		addMouseMotionListener(adapter);
 		addMouseListener(adapter);
