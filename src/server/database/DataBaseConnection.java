@@ -99,8 +99,4 @@ public final class DataBaseConnection {
 			System.out.println("数据库连接关闭异常：" + e.getMessage());
 		}
 	}
-
-	public static void main(String[] args) {
-		new DataBaseConnection();
-	}
 }
