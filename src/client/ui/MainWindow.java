@@ -52,16 +52,14 @@ public final class MainWindow extends JFrame implements ActionListener {
 
 	private JPanel userPanel, listPanel, groupPanel;
 	private static JPanel friendPanel;
-	private JButton minBtn, closeBtn, tagBtn, friendBtn, groupBtn;
+	private JButton minBtn, closeBtn, tagBtn, friendBtn, groupBtn, logoBtn, avatarBtn, addFriendBtn;
 	private JLabel nameLabel;
-	private JButton avatar;
 	private JTextField tagTextField;
 	private ButtonGroup friendGroup;
 	private JRadioButton friendRadio, groupRadio;
 	private User userInfo;
 	private JScrollPane friendScrollPane;
 	private ButtonGroup friendBtnGroup, groupBtnGroup;
-	private JButton addFriends;
 	private DataCheck dataCheck = new DataCheck();
 
 	public static JPanel getFriendPanel() {
@@ -109,12 +107,13 @@ public final class MainWindow extends JFrame implements ActionListener {
 		init();
 		setLayout(null);
 
+		userPanel.add(logoBtn);
 		userPanel.add(closeBtn);
 		userPanel.add(minBtn);
-		userPanel.add(avatar);
+		userPanel.add(avatarBtn);
 		userPanel.add(nameLabel);
 		userPanel.add(tagBtn);
-		userPanel.add(addFriends);
+		userPanel.add(addFriendBtn);
 		userPanel.add(tagTextField);
 		listPanel.add(friendBtn);
 		listPanel.add(friendRadio);
@@ -145,8 +144,15 @@ public final class MainWindow extends JFrame implements ActionListener {
 
 		/**
 		 * logo
-		 * 应该要来个logo
 		 */
+
+		ImageIcon logo = new ImageIcon("./res/UI/img/logo.png");
+		Image logoImg = logo.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		ImageIcon logo2 = new ImageIcon(logoImg);
+		logoBtn = new JButton(logo2);
+		logoBtn.setBounds(10, 10, 20, 20);
+		logoBtn.setBorder(new EmptyBorder(0, 0, 0, 0));
+		logoBtn.setContentAreaFilled(false);
 
 		/**
 		 * 关闭按钮
@@ -186,14 +192,14 @@ public final class MainWindow extends JFrame implements ActionListener {
 		/**
 		 * 头像按钮
 		 */
-		avatar = new JButton();
-		avatar.setBounds(20, 50, 80, 80);
-		avatar.setVisible(true);
+		avatarBtn = new JButton();
+		avatarBtn.setBounds(20, 50, 80, 80);
+		avatarBtn.setVisible(true);
 		Image headPic =
 			(GetAvatar.getAvatarImage(userInfo.getUserId(), "./res/avatar/User/", userInfo.getUserAvatar())).getImage()
 				.getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-		avatar.setIcon(new ImageIcon(headPic));
-		avatar.addActionListener(new ActionListener() {
+		avatarBtn.setIcon(new ImageIcon(headPic));
+		avatarBtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -205,7 +211,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 					System.out.println("文件:" + file.getAbsolutePath());
 					Image i =
 						new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-					avatar.setIcon(new ImageIcon(i));
+					avatarBtn.setIcon(new ImageIcon(i));
 					//复制图片
 					String output = "./res/avatar/User/" + userInfo.getUserId() + ".png";
 					FileInputStream fis = null;
@@ -251,11 +257,11 @@ public final class MainWindow extends JFrame implements ActionListener {
 		ImageIcon m = new ImageIcon("./res/UI/mainUI/addFriend.png");
 		Image mm = m.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 		ImageIcon m2 = new ImageIcon(mm);
-		addFriends = new JButton(m2);
-		addFriends.setBounds(310, 100, 30, 30);
-		addFriends.setBorder(new EmptyBorder(0, 0, 0, 0));
-		addFriends.setContentAreaFilled(false);
-		addFriends.addActionListener((e) -> {
+		addFriendBtn = new JButton(m2);
+		addFriendBtn.setBounds(310, 100, 30, 30);
+		addFriendBtn.setBorder(new EmptyBorder(0, 0, 0, 0));
+		addFriendBtn.setContentAreaFilled(false);
+		addFriendBtn.addActionListener((e) -> {
 			String friendId = JOptionPane.showInputDialog("请输入对方账号！");
 			if (!dataCheck.checkRegister(friendId)) {
 				JOptionPane.showMessageDialog(null, "用户不存在！");
@@ -389,7 +395,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		friendRadio.setHorizontalTextPosition(SwingConstants.CENTER);
 		friendRadio.setBackground(Color.WHITE);
 		friendRadio.setIcon(new ImageIcon("./res/UI/mainUI/friendOrigin.png"));
-		friendRadio.setRolloverIcon(new ImageIcon("./res/UI/mainUI/friendHover.png"));
+		friendRadio.setRolloverIcon(new ImageIcon("./res/UI/mainUI/friendActive.png"));
 		friendRadio.setSelectedIcon(new ImageIcon("./res/UI/mainUI/friendActive.png"));
 		friendRadio.setSelected(true);
 		friendRadio.addFocusListener(new FocusListener() {
@@ -419,7 +425,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		groupRadio.setBounds(250, 0, 100, 36);
 		groupRadio.setBackground(Color.WHITE);
 		groupRadio.setIcon(new ImageIcon("./res/UI/mainUI/groupOrigin.png"));
-		groupRadio.setRolloverIcon(new ImageIcon("./res/UI/mainUI/groupHover.png"));
+		groupRadio.setRolloverIcon(new ImageIcon("./res/UI/mainUI/groupActive.png"));
 		groupRadio.setSelectedIcon(new ImageIcon("./res/UI/mainUI/groupActive.png"));
 		groupRadio.addFocusListener(new FocusListener() {
 
