@@ -207,7 +207,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 						new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
 					avatar.setIcon(new ImageIcon(i));
 					//复制图片
-					String output = "./res/avatar/User/" + userInfo.getUserId() + ".jpg";
+					String output = "./res/avatar/User/" + userInfo.getUserId() + ".png";
 					FileInputStream fis = null;
 					FileOutputStream fos = null;
 					try {

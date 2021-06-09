@@ -11,10 +11,13 @@ public final class GetAvatar {
 	public static ImageIcon getAvatarImage(String id, String relativePath, String avatarUrl) {
 		ImageIcon avatar = null;
 		try {
-			String path = relativePath + id + ".jpg";
+			String path = relativePath + id + ".png";
 			if (!new File(path).exists()) {
-				System.out.println("头像不存在");
-				avatar = new ImageIcon("./res/avatar/defaultAvatar.jpg");
+				path = relativePath + id + ".jpg";
+				if (!new File(path).exists()) {
+					System.out.println("头像不存在");
+					avatar = new ImageIcon("./res/avatar/defaultAvatar.jpg");
+				}
 			} else {
 				avatar = new ImageIcon(path);
 			}

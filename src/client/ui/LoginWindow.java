@@ -110,7 +110,7 @@ public final class LoginWindow extends JFrame {
 		 */
 		headPortrait = new JLabel();
 		headPortrait.setBounds(570, 50, 100, 100);
-		String headPortraitAddress = "./res/avatar/defaultAvatar.jpg";
+		String headPortraitAddress = "./res/avatar/defaultAvatar.png";
 		Image headPic =
 			(new ImageIcon(headPortraitAddress)).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
 		// ImageIcon headIcon = new ImageIcon(temp);
