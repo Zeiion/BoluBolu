@@ -17,22 +17,28 @@ public class RoundBorder implements Border {
 	private int arcH = 15;
 	private int arcW = 15;
 
+	private int a, b, c, d;
+
 	public RoundBorder() {
-		this(Color.BLACK);
+		this(Color.BLACK, 10, 15, 10, 15);
 		// 如果实例化时，没有传值，默认是黑色边框
 	}
 
-	public RoundBorder(Color color) {
+	public RoundBorder(Color color, int a, int b, int c, int d) {
 		this.color = color;
+		this.a = a;
+		this.b = b;
+		this.c = c;
+		this.d = d;
 	}
 
-	@Override public Insets getBorderInsets(Component c) {
+	@Override public Insets getBorderInsets(Component e) {
 
 		// top:可以调节光标与边框的距离, 间接影响高度
 		// left:可以调节光标与边框的距离
 		// bottom:可以调节光标与边框的距离, 间接影响高度
 		// right:可以调节光标与边框的距离
-		return new Insets(10, 15, 10, 15);
+		return new Insets(a, b, c, d);
 	}
 
 	@Override public boolean isBorderOpaque() {

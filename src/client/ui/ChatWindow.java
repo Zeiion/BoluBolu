@@ -2,6 +2,7 @@ package client.ui;
 
 import client.client.ServerService;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Insets;
@@ -71,13 +72,6 @@ public final class ChatWindow extends JFrame {
 
 		setSize(750, 700);
 		init();
-
-		/**
-		 * 群聊框
-		 */
-		if (isGroup) {
-			add(groupScroll);
-		}
 
 		setUndecorated(true);
 		getRootPane().setWindowDecorationStyle(JRootPane.NONE);
@@ -179,7 +173,6 @@ public final class ChatWindow extends JFrame {
 		 */
 		headPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/grandeur-light.png"));
 		headPanel.setLayout(null);
-		headPanel.setBounds(0, 0, 750, 120);
 		headPanel.setBackground(new Color(122, 180, 202));
 		adapter = new WindowMoveAdapter();
 		headPanel.addMouseMotionListener(adapter);
@@ -296,8 +289,8 @@ public final class ChatWindow extends JFrame {
 		sendButton.setFocusPainted(false);
 		sendButton.setMargin(new Insets(0, 0, 0, 0));
 		sendButton.setBackground(new Color(238, 238, 238));
-		sendButton.setBounds(670, 172, 70, 24);
 		sendButton.setFont(new Font("黑体", Font.BOLD, 15));
+		sendButton.setBounds(670, 172, 70, 24);
 		Send2FriendListener send2FriendListener = new Send2FriendListener(selfName, friendID, isGroup);
 		send2FriendListener.setMessage(input);
 		send2FriendListener.setTempChat(this);
@@ -313,32 +306,51 @@ public final class ChatWindow extends JFrame {
 			}
 		});
 
-		// 获取群成员部分
+		/**
+		 * 群聊额外列表
+		 */
 		if (isGroup) {
 			groupBox = Box.createVerticalBox();
 			Vector<String> members = ServerService.getGroupMembers(friendID);
-			Box myBox = Box.createHorizontalBox();
-			myBox.add(new JLabel(new ImageIcon(GetAvatar.getAvatarImage(selfID, "./res/avatar/User/", "").getImage()
-				.getScaledInstance(20, 20, Image.SCALE_DEFAULT))));
-			myBox.add(new JLabel("我自己"));
-			groupBox.add(myBox);
-			for (String i : members) {
-				if (i.equals(selfID)) {
-					continue;
+			//			Box myBox = Box.createHorizontalBox();
+			//			JLabel myIcon = new JLabel(new ImageIcon(
+			//				GetAvatar.getAvatarImage(selfID, "./res/avatar/User/", "").getImage()
+			//					.getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
+			//			myIcon.setPreferredSize(new Dimension(50, 50));
+			//			myBox.add(myIcon);
+			//			JLabel myself = new JLabel("我自己");
+			//			myself.setPreferredSize(new Dimension(50, 50));
+			//			myBox.add(myself);
+			//
+			//			groupBox.add(myBox);
+			for (int i = 0; i < members.size(); i++) {
+				String tempMember = members.get(i);
+				ImageIcon icon = new ImageIcon("./res/UI/img/defaultAvatar.jpg");
+				String content = "陌生人(" + tempMember + ")";
+				if (tempMember.equals(selfID)) {
+					content = "我自己";
+					icon = new ImageIcon(GetAvatar.getAvatarImage(selfID, "./res/avatar/User/", "").getImage()
+						.getScaledInstance(30, 30, Image.SCALE_DEFAULT));
 				}
 				Box peopleBox = Box.createHorizontalBox();
-				ImageIcon icon = new ImageIcon("./res/UI/img/defaultAvatar.jpg");
-				String content = "陌生人(" + i + ")";
-				if (MainWindow.getFriend().containsKey(i)) {
-					icon = GetAvatar
-						.getAvatarImage(i, "./res/avatar/User/", MainWindow.getFriend().get(i).getFriendAvatar());
-					content = MainWindow.getFriend().get(i).getFriendName() + "(" + MainWindow.getFriend().get(i)
-						.getFriendID() + ")";
+				peopleBox.setBounds(0, 0, 200, 60);
+				if (MainWindow.getFriend().containsKey(tempMember)) {
+					icon = GetAvatar.getAvatarImage(tempMember, "./res/avatar/User/",
+						MainWindow.getFriend().get(tempMember).getFriendAvatar());
+					content = MainWindow.getFriend().get(tempMember).getFriendName() + "(" + MainWindow.getFriend()
+						.get(tempMember).getFriendID() + ")";
 				}
-				icon = new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-				peopleBox.add(new JLabel(icon));
-				peopleBox.add(new JLabel(content));
-				groupBox.add(peopleBox);
+				icon = new ImageIcon(icon.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+				JLabel iconLabel = new JLabel(icon);
+				JLabel nameLabel = new JLabel(content);
+				JLabel blank = new JLabel();
+				iconLabel.setPreferredSize(new Dimension(80, 30));
+				nameLabel.setPreferredSize(new Dimension(80, 30));
+				peopleBox.add(iconLabel);
+				peopleBox.add(nameLabel);
+				JPanel peoplePanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/white.png"));
+				peoplePanel.add(peopleBox);
+				groupBox.add(peoplePanel);
 			}
 			groupScroll = new JScrollPane(groupBox);
 
@@ -346,12 +358,27 @@ public final class ChatWindow extends JFrame {
 			groupScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			// 设置滚动速率
 			groupScroll.getVerticalScrollBar().setUnitIncrement(16);
-			groupScroll.setBounds(750, 120, 141, 449);
+			//			groupScroll.setBounds(750, 120, 200, 580);
+			groupScroll.setBounds(0, 0, 200, 580);
+			groupScroll.setBorder(new EmptyBorder(0, 0, 0, 0));
+
+			JPanel groupListPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/group.png"));
+			groupListPanel.setBounds(750, 120, 200, 580);
+			groupListPanel.add(groupScroll);
+			groupListPanel.setBorder(new EmptyBorder(0, 4, 0, 0));
+			//其他更改位置的按钮
+			closeBtn.setBounds(930, 0, 20, 20);
+			maxBtn.setBounds(910, 0, 20, 20);
+			minBtn.setBounds(890, 0, 20, 20);
+			headPanel.setBounds(0, 0, 950, 120);
+			setSize(950, 700);
+			add(groupListPanel);
 		} else {
+			setSize(750, 700);
+			headPanel.setBounds(0, 0, 750, 120);
 			closeBtn.setBounds(730, 0, 20, 20);
 			maxBtn.setBounds(710, 0, 20, 20);
 			minBtn.setBounds(690, 0, 20, 20);
-			setSize(750, 700);
 		}
 
 		headPanel.add(closeBtn);
