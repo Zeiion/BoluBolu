@@ -13,32 +13,34 @@ import server.server.ChatServer;
  */
 public final class DataCheck {
 
-	public boolean checkRegister(String userId){
-		try{
+	public boolean checkRegister(String userId) {
+		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "select * from dw_user where user_id = (?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,userId);
+			dataCon.psql.setString(1, userId);
 			return dataCon.psql.executeQuery().next();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	public boolean checkName(String name){
-		try{
+
+	public boolean checkName(String name) {
+		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "select * from dw_user where user_name = (?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,name);
+			dataCon.psql.setString(1, name);
 			return dataCon.psql.executeQuery().next();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	public FriendsOrGroups checkUser(String userId){
-		try{
+
+	public FriendsOrGroups checkUser(String userId) {
+		try {
 			String id;
 			String name;
 			String avatar;
@@ -46,29 +48,31 @@ public final class DataCheck {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "select * from dw_user where user_id = (?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,userId);
+			dataCon.psql.setString(1, userId);
 			ResultSet resultSet = dataCon.psql.executeQuery();
-			if (!resultSet.next()){
+			if (!resultSet.next()) {
 				return null;
 			}
 			id = resultSet.getString("user_id");
 			name = resultSet.getString("user_name");
-			if (resultSet.getString("user_avatar")==null){
-				avatar="";
-			}else {
-				avatar=resultSet.getString("user_avatar");
+			if (resultSet.getString("user_avatar") == null) {
+				avatar = "";
+			} else {
+				avatar = resultSet.getString("user_avatar");
 			}
-			if (resultSet.getString("user_tag")==null){
+			if (resultSet.getString("user_tag") == null) {
 				tag = "";
-			}else {tag = resultSet.getString("user_tag");
+			} else {
+				tag = resultSet.getString("user_tag");
 			}
-			FriendsOrGroups friendsOrGroups = new FriendsOrGroups(id,name,avatar,tag,null);
+			FriendsOrGroups friendsOrGroups = new FriendsOrGroups(id, name, avatar, tag, null);
 			return friendsOrGroups;
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+
 	public Boolean isLoginSuccess(String userId, String userPassword) {
 		Boolean isSuccess = new Boolean(false);
 		try {
@@ -88,73 +92,80 @@ public final class DataCheck {
 		return isSuccess;
 	}
 
-	public boolean register(String username, String userPassword){
-		try{
-
+	public int register(String username, String userPassword) {
+		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
-			String sql ="insert into dw_user(user_name,user_password,user_tag) values (?,?,?)";
+			String sql = "insert into dw_user(user_name,user_password,user_tag) values (?,?,?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,username);
-			dataCon.psql.setString(2,userPassword);
-			dataCon.psql.setString(3,"");
+			dataCon.psql.setString(1, username);
+			dataCon.psql.setString(2, userPassword);
+			dataCon.psql.setString(3, "");
 			dataCon.psql.executeUpdate();
-			//dataCon.putToDatabase(sql);
-			return true;
-		}catch (Exception e){
+			String sql1 = "select count(user_id) as count from dw_user";
+			dataCon.psql = dataCon.conn.prepareStatement(sql1);
+			ResultSet resultSet = dataCon.psql.executeQuery();
+			if (!resultSet.next()) {
+				return 1;
+			}
+			return Integer.parseInt(resultSet.getString("count"));
+		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return 0;
 		}
 	}
 
-	public boolean checkFriend(String userId,String friendId){
-		try{
+	public boolean checkFriend(String userId, String friendId) {
+		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "select * from dw_useruser where myself = (?) and myfriend = (?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,userId);
-			dataCon.psql.setString(2,friendId);
+			dataCon.psql.setString(1, userId);
+			dataCon.psql.setString(2, friendId);
 			return dataCon.psql.executeQuery().next();
-		}catch (Exception e){
+		} catch (Exception e) {
 			return true;
 		}
 	}
-	public boolean addFriend(String userId,String friendId){
-		try{
+
+	public boolean addFriend(String userId, String friendId) {
+		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "insert into dw_useruser values(?,?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,userId);
-			dataCon.psql.setString(2,friendId);
+			System.out.println("sql");
+			dataCon.psql.setString(1, userId);
+			dataCon.psql.setString(2, friendId);
+			dataCon.psql.executeUpdate();
 			String sql1 = "insert into dw_useruser values(?,?)";
+			System.out.println("sql2");
 			dataCon.psql = dataCon.conn.prepareStatement(sql1);
-			dataCon.psql.setString(1,friendId);
-			dataCon.psql.setString(2,userId);
+			dataCon.psql.setString(1, friendId);
+			dataCon.psql.setString(2, userId);
 			dataCon.psql.executeUpdate();
 			return true;
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
 	}
-	public String getPassword(String userId){
+
+	public String getPassword(String userId) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "select user_password from dw_user where user_id = (?) or user_name = (?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			dataCon.psql.setString(1,userId);
-			dataCon.psql.setString(2,userId);
+			dataCon.psql.setString(1, userId);
+			dataCon.psql.setString(2, userId);
 			ResultSet resultSet = dataCon.psql.executeQuery();
-			if (!resultSet.next()){
+			if (!resultSet.next()) {
 				return null;
 			}
 			return resultSet.getString(1);
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-
-
 
 	private static Vector<String> getMemberFromId(String sql, String row) {
 		// 与数据库创建连接
