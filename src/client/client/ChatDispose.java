@@ -3,6 +3,7 @@ package client.client;
 import client.ui.ChatWindow;
 import client.ui.FriendBlock;
 import client.ui.MainWindow;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.util.HashMap;
 
@@ -77,6 +78,7 @@ public final class ChatDispose {
 					FriendBlock f = MainWindow.getFriend().get(res[2]);
 					f.setFriendStatus(res[1]);
 					if (res[1].equals("在线")) {
+						f.getFriendStatusLabel().setFont(new Font("黑体", Font.BOLD, 13));
 						for (int i = 0; i < MainWindow.getFriendPanel().getComponentCount(); i++) {
 							FriendBlock fb = (FriendBlock)MainWindow.getFriendPanel().getComponent(i);
 							if (fb.getFriendStatus().equals("离线")) {
@@ -89,6 +91,7 @@ public final class ChatDispose {
 							}
 						}
 					} else if (res[1].equals("离线")) {
+						f.getFriendStatusLabel().setFont(new Font("黑体", Font.PLAIN, 13));
 						for (int i = MainWindow.getFriendPanel().getComponentCount() - 1; i >= 0; i--) {
 							FriendBlock fb = (FriendBlock)MainWindow.getFriendPanel().getComponent(i);
 							if (fb.getFriendStatus().equals("在线")) {
