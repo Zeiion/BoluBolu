@@ -11,6 +11,7 @@ import javax.swing.JLabel;
  */
 public class FriendBlock extends GroupBlock {
 	private String friendStatus;
+
 	private JLabel friendStatusLabel;
 
 	public FriendBlock(String friendAvatar, String friendName, String friendTag, String friendID, String friendStatus) {
@@ -18,9 +19,9 @@ public class FriendBlock extends GroupBlock {
 		this.friendStatus = friendStatus;
 		friendStatusLabel = new JLabel(friendStatus);
 		friendStatusLabel.setBounds(295, 20, 42, 22);
-		if("在线".equals(friendStatus)){
+		if ("在线".equals(friendStatus)) {
 			friendStatusLabel.setFont(new Font("黑体", Font.BOLD, 13));
-		}else{
+		} else {
 			friendStatusLabel.setFont(new Font("黑体", Font.PLAIN, 13));
 		}
 		this.add(friendStatusLabel);
@@ -28,6 +29,10 @@ public class FriendBlock extends GroupBlock {
 
 	public String getFriendStatus() {
 		return friendStatus;
+	}
+
+	public JLabel getFriendStatusLabel() {
+		return friendStatusLabel;
 	}
 
 	public void setFriendStatus(String friendStatus) {

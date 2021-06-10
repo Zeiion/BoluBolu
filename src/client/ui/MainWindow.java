@@ -205,14 +205,14 @@ public final class MainWindow extends JFrame implements ActionListener {
 				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				jfc.showDialog(new JLabel(), "选择");
 				File file = jfc.getSelectedFile();
-				if (file!=null) {
+				if (file != null) {
 					if (file.isDirectory()) {
 						System.out.println("文件夹:" + file.getAbsolutePath());
 					} else if (file.isFile()) {
 						System.out.println("文件:" + file.getAbsolutePath());
-						Image i =
-							new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-						avatar.setIcon(new ImageIcon(i));
+						Image i = new ImageIcon(file.getAbsolutePath()).getImage()
+							.getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+						avatarBtn.setIcon(new ImageIcon(i));
 						//复制图片
 						String output = "./res/avatar/User/" + userInfo.getUserId() + ".png";
 						FileInputStream fis = null;
@@ -265,6 +265,9 @@ public final class MainWindow extends JFrame implements ActionListener {
 		addFriendBtn.setContentAreaFilled(false);
 		addFriendBtn.addActionListener((e) -> {
 			String friendId = JOptionPane.showInputDialog("请输入对方账号！");
+			if (friendId.isEmpty()) {
+				return;
+			}
 			if (!dataCheck.checkRegister(friendId)) {
 				JOptionPane.showMessageDialog(null, "用户不存在！");
 			} else if (friendId.equals(userInfo.getUserId())) {
@@ -276,17 +279,17 @@ public final class MainWindow extends JFrame implements ActionListener {
 			} else if (dataCheck.addFriend(userInfo.getUserId(), friendId)) {
 				userInfo.getFriends().add(dataCheck.checkUser(friendId));
 				JOptionPane.showMessageDialog(null, "添加好友成功！");
-				//更新界面
-				FriendsOrGroups userFriend = dataCheck.checkUser(friendId);
-				String friendAvatar = userFriend.getAvatar();
-				String friendName = userFriend.getName();
-				String friendTag = userFriend.getTag();
-				String friendID = userFriend.getId();
-				String friendStatus = userFriend.getStatus();
-				friend.put(friendID, new FriendBlock(friendAvatar, friendName, friendTag, friendID, friendStatus));
-				//每个宽高
-				friend.get(friendID).setBounds(0, (userInfo.getFriends().size() - 1) * 66, 350, 66);
-				friendPanel.updateUI();
+				//				//更新界面
+				//				FriendsOrGroups userFriend = dataCheck.checkUser(friendId);
+				//				String friendAvatar = userFriend.getAvatar();
+				//				String friendName = userFriend.getName();
+				//				String friendTag = userFriend.getTag();
+				//				String friendID = userFriend.getId();
+				//				String friendStatus = userFriend.getStatus();
+				//				friend.put(friendID, new FriendBlock(friendAvatar, friendName, friendTag, friendID, friendStatus));
+				//				//每个宽高
+				//				friend.get(friendID).setBounds(0, (userInfo.getFriends().size() - 1) * 66, 350, 66);
+				//				friendPanel.updateUI();
 			} else {
 				JOptionPane.showMessageDialog(null, "添加好友失败！");
 			}

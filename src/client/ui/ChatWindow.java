@@ -210,7 +210,7 @@ public final class ChatWindow extends JFrame {
 		 * 好友名字
 		 */
 		friendName = new JLabel(friendNameString);
-		friendName.setBounds(120, 25, 70, 22);
+		friendName.setBounds(120, 25, 200, 22);
 		friendName.setFont(new Font("黑体", Font.BOLD, 20));
 		headPanel.add(friendName);
 

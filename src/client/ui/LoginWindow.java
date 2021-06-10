@@ -63,13 +63,13 @@ public final class LoginWindow extends JFrame {
 		 */
 		closeBtn = new JButton();
 		closeBtn.setMargin(new Insets(0, 0, 0, 0));
-		closeBtn.setBounds(783, 1, 20, 20);
+		closeBtn.setBounds(773, 1, 20, 20);
 		closeBtn.setContentAreaFilled(false);
 		closeBtn.setBorderPainted(false);
 		closeBtn.setFocusPainted(false);
 		closeBtn.setToolTipText("关闭");
-		closeBtn.setIcon(new ImageIcon("./res/UI/commonButton/closeOrigin.png"));
-		closeBtn.setRolloverIcon(new ImageIcon("./res/UI/commonButton/closeHover.png"));
+		closeBtn.setIcon(new ImageIcon("./res/UI/commonButton/closeOrigin-blue.png"));
+		closeBtn.setRolloverIcon(new ImageIcon("./res/UI/commonButton/closeClick.png"));
 		closeBtn.setPressedIcon(new ImageIcon("./res/UI/commonButton/closeClick.png"));
 		ExitListener closeListener = new ExitListener();
 		closeBtn.addActionListener(closeListener);
@@ -79,14 +79,14 @@ public final class LoginWindow extends JFrame {
 		 */
 		minBtn = new JButton();
 		minBtn.setMargin(new Insets(0, 0, 0, 0));
-		minBtn.setBounds(763, 1, 20, 20);
+		minBtn.setBounds(753, 1, 20, 20);
 		minBtn.setContentAreaFilled(false);
 		minBtn.setBorderPainted(false);
 		minBtn.setFocusPainted(false);
 		minBtn.setToolTipText("最小化");
-		minBtn.setIcon(new ImageIcon("./res/UI/commonButton/minOrigin.png"));
-		minBtn.setRolloverIcon(new ImageIcon("./res/UI/commonButton/minHover.png"));
-		minBtn.setPressedIcon(new ImageIcon("./res/UI/commonButton/minClick.png"));
+		minBtn.setIcon(new ImageIcon("./res/UI/commonButton/minOrigin-blue.png"));
+		minBtn.setRolloverIcon(new ImageIcon("./res/UI/commonButton/minClick-blue.png"));
+		minBtn.setPressedIcon(new ImageIcon("./res/UI/commonButton/minClick-blue.png"));
 		minBtn.addActionListener(new ActionListener() {
 
 			@Override public void actionPerformed(ActionEvent e) {
@@ -225,26 +225,30 @@ public final class LoginWindow extends JFrame {
 		registerBtn.setContentAreaFilled(false);
 		registerBtn.setBorderPainted(false);
 		registerBtn.setText("注册账号");
+		registerBtn.setFont(new Font("黑体", Font.BOLD, 13));
 		registerBtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg) {
 				//注册账号
 				try {
-					if (String.valueOf(password.getPassword()).equals("密码")) {
-						JOptionPane.showMessageDialog(null, "请输入密码！","错误！",JOptionPane.ERROR_MESSAGE);
+					if ("密码".equals(String.valueOf(password.getPassword()))) {
+						JOptionPane.showMessageDialog(null, "请输入密码！", "错误！", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if (String.valueOf(password.getPassword()).equals("账号")) {
-						JOptionPane.showMessageDialog(null, "请输入账号！","错误！",JOptionPane.ERROR_MESSAGE);
+					if ("账号".equals(String.valueOf(password.getPassword()))) {
+						JOptionPane.showMessageDialog(null, "请输入账号！", "错误！", JOptionPane.ERROR_MESSAGE);
 					}
 					if (dataCheck.checkName(userId.getText().trim())) {
-						JOptionPane.showMessageDialog(null, "用户已存在！","错误！",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "用户已存在！", "错误！", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if (dataCheck
-						.register(userId.getText().trim(), Verify.getMd5(String.valueOf(password.getPassword())))) {
-						JOptionPane.showMessageDialog(null, "注册成功！","成功！",JOptionPane.INFORMATION_MESSAGE);
+					int index = dataCheck
+						.register(userId.getText().trim(), Verify.getMd5(String.valueOf(password.getPassword())));
+					System.out.println(index);
+					if (index > 0) {
+						JOptionPane.showMessageDialog(null, "注册成功！\n您的账号为" + (101 + index), "成功！",
+							JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "注册失败！","错误！",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "注册失败！", "错误！", JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -257,18 +261,16 @@ public final class LoginWindow extends JFrame {
 		 */
 		findPwdBtn = new JButton();
 		findPwdBtn.setMargin(new Insets(0, 0, 0, 0));
-		findPwdBtn.setBounds(565, 460, 100, 16);
+		findPwdBtn.setBounds(565, 465, 100, 16);
 		findPwdBtn.setContentAreaFilled(false);
 		findPwdBtn.setBorderPainted(false);
 		findPwdBtn.setText("找回密码");
+		findPwdBtn.setFont(new Font("黑体", Font.BOLD, 13));
 		findPwdBtn.addActionListener(new ActionListener() {
-
-			//找回密码'
+			//找回密码
 			@Override public void actionPerformed(ActionEvent e) {
-				// TODO 自动生成的方法存根
-				//
 				JTextField pressingPassword = new JTextField();
-				JButton putup = new JButton("");
+				JButton putUp = new JButton("");
 				ImageIcon backGround = new ImageIcon("./res/UI/img/loginBackground.jpg");
 				JLabel label = new JLabel(backGround);
 				label.setBounds(0, 0, backGround.getIconWidth(), backGround.getIconHeight());
@@ -288,7 +290,8 @@ public final class LoginWindow extends JFrame {
 				changingPassword.setVisible(true);
 				changingPassword.add(pressingPassword);
 				changingPassword.setFocusable(true);
-				pressingPassword.setBounds(70, 170, 230, 35);
+				pressingPassword.setBounds(70, 205, 230, 35);
+				pressingPassword.setBorder(new RoundBorder());
 				pressingPassword.setText("请输入需要找回密码的账号！");
 				pressingPassword.addFocusListener(new FocusListener() {
 					@Override public void focusGained(FocusEvent e) {
@@ -304,23 +307,25 @@ public final class LoginWindow extends JFrame {
 					}
 				});
 				ImageIcon i = new ImageIcon("./res/UI/loginUI/radioTick.png");
-				i.setImage(i.getImage().getScaledInstance(35,35, SCALE_SMOOTH));
+				i.setImage(i.getImage().getScaledInstance(30, 30, SCALE_SMOOTH));
 				//Image i1 = i.getImage().getScaledInstance(35, 35, SCALE_SMOOTH);
 				//i = new ImageIcon(i);
-				putup.setIcon(i);
-				changingPassword.add(putup);
-				putup.setBounds(325, 170, 35, 35);
-				putup.addActionListener(new ActionListener() {
+				putUp.setIcon(i);
+				changingPassword.add(putUp);
+				putUp.setBounds(325, 210, 30, 30);
+				putUp.addActionListener(new ActionListener() {
 					@Override public void actionPerformed(ActionEvent e) {
 						if (pressingPassword.getText().trim().equals("请输入需要找回密码的账号！")) {
-							JOptionPane.showMessageDialog(changingPassword, "请输入账号！","错误！",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(changingPassword, "请输入账号！", "错误！", JOptionPane.ERROR_MESSAGE);
 						} else {
 							if (dataCheck.getPassword(pressingPassword.getText()) != null) {
 								JOptionPane.showMessageDialog(changingPassword,
-									"您的密码是：" + dataCheck.getPassword(pressingPassword.getText()).trim(),
-										"找回密码成功",JOptionPane.INFORMATION_MESSAGE);
+									"您的MD5密码是：" + (dataCheck.getPassword(pressingPassword.getText()).trim())
+										+ "\n您可以到 https://www.cmd5.com 查找相似解", "找回密码成功",
+									JOptionPane.INFORMATION_MESSAGE);
 							} else {
-								JOptionPane.showMessageDialog(changingPassword, "找回密码失败！","错误！",JOptionPane.ERROR_MESSAGE);
+								JOptionPane
+									.showMessageDialog(changingPassword, "找回密码失败！", "错误！", JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}
@@ -375,11 +380,11 @@ public final class LoginWindow extends JFrame {
 				password.setText(userPassword);
 				t = (char)in.read();
 				rememberPwdCheckBox.setSelected(true);
-//				if (t == '1') {
-//					autoLoginCheckBox.setSelected(true);
-//					//自动登录
-//					loginListener.actionPerformed(null);
-//				}
+				if (t == '1') {
+					autoLoginCheckBox.setSelected(true);
+					//自动登录
+					loginListener.actionPerformed(null);
+				}
 			}
 			in.close();
 		} catch (Exception e) {

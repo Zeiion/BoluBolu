@@ -42,5 +42,5 @@ public final class ServerInfo {
 	/**
 	 * 数据库连接密码
 	 */
-	public final static String DB_USER_PASSWORD = "sa123";
+	public final static String DB_USER_PASSWORD = "123";
 }
