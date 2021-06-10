@@ -25,8 +25,24 @@ public final class DataCheck {
 			return false;
 		}
 	}
+	public boolean checkName(String name){
+		try{
+			DataBaseConnection dataCon = new DataBaseConnection();
+			String sql = "select * from dw_user where user_name = (?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql);
+			dataCon.psql.setString(1,name);
+			return dataCon.psql.executeQuery().next();
+		}catch (Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public FriendsOrGroups checkUser(String userId){
 		try{
+			String id;
+			String name;
+			String avatar;
+			String tag;
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "select * from dw_user where user_id = (?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
@@ -35,7 +51,19 @@ public final class DataCheck {
 			if (!resultSet.next()){
 				return null;
 			}
-			return (UserInfo.FriendsOrGroups) resultSet.getObject(1);
+			id = resultSet.getString("user_id");
+			name = resultSet.getString("user_name");
+			if (resultSet.getString("user_avatar")==null){
+				avatar="";
+			}else {
+				avatar=resultSet.getString("user_avatar");
+			}
+			if (resultSet.getString("user_tag")==null){
+				tag = "";
+			}else {tag = resultSet.getString("user_tag");
+			}
+			FriendsOrGroups friendsOrGroups = new FriendsOrGroups(id,name,avatar,tag,null);
+			return friendsOrGroups;
 		}catch (Exception e){
 			e.printStackTrace();
 			return null;
@@ -64,10 +92,11 @@ public final class DataCheck {
 		try{
 
 			DataBaseConnection dataCon = new DataBaseConnection();
-			String sql ="insert into dw_user(user_name,user_password) values (?,?)";
+			String sql ="insert into dw_user(user_name,user_password,user_tag) values (?,?,?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
 			dataCon.psql.setString(1,username);
 			dataCon.psql.setString(2,userPassword);
+			dataCon.psql.setString(3,"");
 			dataCon.psql.executeUpdate();
 			//dataCon.putToDatabase(sql);
 			return true;
@@ -96,6 +125,10 @@ public final class DataCheck {
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
 			dataCon.psql.setString(1,userId);
 			dataCon.psql.setString(2,friendId);
+			String sql1 = "insert into dw_useruser values(?,?)";
+			dataCon.psql = dataCon.conn.prepareStatement(sql1);
+			dataCon.psql.setString(1,friendId);
+			dataCon.psql.setString(2,userId);
 			dataCon.psql.executeUpdate();
 			return true;
 		}catch (Exception e){

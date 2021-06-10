@@ -199,45 +199,47 @@ public final class MainWindow extends JFrame implements ActionListener {
 				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				jfc.showDialog(new JLabel(), "选择");
 				File file = jfc.getSelectedFile();
-				if (file.isDirectory()) {
-					System.out.println("文件夹:" + file.getAbsolutePath());
-				} else if (file.isFile()) {
-					System.out.println("文件:" + file.getAbsolutePath());
-					Image i =
-						new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-					avatar.setIcon(new ImageIcon(i));
-					//复制图片
-					String output = "./res/avatar/User/" + userInfo.getUserId() + ".jpg";
-					FileInputStream fis = null;
-					FileOutputStream fos = null;
-					try {
-						//指明需要复制的图片的路径
-						File srcFile = new File(file.getAbsolutePath());
-						//指明复制后的图片去向
-						File destFile = new File(output);
-						fis = new FileInputStream(srcFile);
-						fos = new FileOutputStream(destFile);
-						byte[] buffer = new byte[1024];
-						int len;
-						//写入数据
-						while ((len = fis.read(buffer)) != -1) {
-							fos.write(buffer, 0, len);
-						}
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} finally {
-						if (fos != null) {
-							try {
-								fos.close();
-							} catch (IOException e1) {
-								e1.printStackTrace();
+				if (file!=null) {
+					if (file.isDirectory()) {
+						System.out.println("文件夹:" + file.getAbsolutePath());
+					} else if (file.isFile()) {
+						System.out.println("文件:" + file.getAbsolutePath());
+						Image i =
+							new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+						avatar.setIcon(new ImageIcon(i));
+						//复制图片
+						String output = "./res/avatar/User/" + userInfo.getUserId() + ".jpg";
+						FileInputStream fis = null;
+						FileOutputStream fos = null;
+						try {
+							//指明需要复制的图片的路径
+							File srcFile = new File(file.getAbsolutePath());
+							//指明复制后的图片去向
+							File destFile = new File(output);
+							fis = new FileInputStream(srcFile);
+							fos = new FileOutputStream(destFile);
+							byte[] buffer = new byte[1024];
+							int len;
+							//写入数据
+							while ((len = fis.read(buffer)) != -1) {
+								fos.write(buffer, 0, len);
 							}
-						}
-						if (fis != null) {
-							try {
-								fis.close();
-							} catch (IOException e1) {
-								e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} finally {
+							if (fos != null) {
+								try {
+									fos.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+							if (fis != null) {
+								try {
+									fis.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
 							}
 						}
 					}
@@ -249,10 +251,11 @@ public final class MainWindow extends JFrame implements ActionListener {
 		 *加好友按钮
 		 */
 		ImageIcon m = new ImageIcon("./res/UI/mainUI/addFriend.png");
-		Image mm = m.getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT);
+		Image mm = m.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 		ImageIcon m2 = new ImageIcon(mm);
 		addFriends = new JButton(m2);
-		addFriends.setBounds(280, 50, 60, 60);
+		addFriends.setBounds(310, 100, 30, 30);
+		addFriends.setBorder(new EmptyBorder(0, 0, 0, 0));
 		addFriends.setContentAreaFilled(false);
 		addFriends.addActionListener((e) -> {
 			String friendId = JOptionPane.showInputDialog("请输入对方账号！");
@@ -267,6 +270,17 @@ public final class MainWindow extends JFrame implements ActionListener {
 			} else if (dataCheck.addFriend(userInfo.getUserId(), friendId)) {
 				userInfo.getFriends().add(dataCheck.checkUser(friendId));
 				JOptionPane.showMessageDialog(null, "添加好友成功！");
+				//更新界面
+				FriendsOrGroups userFriend = dataCheck.checkUser(friendId);
+				String friendAvatar = userFriend.getAvatar();
+				String friendName = userFriend.getName();
+				String friendTag = userFriend.getTag();
+				String friendID = userFriend.getId();
+				String friendStatus = userFriend.getStatus();
+				friend.put(friendID, new FriendBlock(friendAvatar, friendName, friendTag, friendID, friendStatus));
+				//每个宽高
+				friend.get(friendID).setBounds(0, (userInfo.getFriends().size() - 1) * 66, 350, 66);
+				friendPanel.updateUI();
 			} else {
 				JOptionPane.showMessageDialog(null, "添加好友失败！");
 			}
@@ -298,7 +312,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		tagBtn.setText(tag);
 		tagBtn.setToolTipText(tag);
 		tagTextField = new JTextField();
-		tagTextField.setBounds(120, 110, 190, 20);
+		tagTextField.setBounds(115, 100, 190, 20);
 		tagTextField.setVisible(false);
 		tagBtn.addActionListener(new ActionListener() {
 

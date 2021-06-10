@@ -30,17 +30,17 @@ public final class ServerInfo {
 	public final static int SQL_PORT = 1433;
 
 	/**
-	 * Mysql 数据库名称
+	 * 数据库名称
 	 */
-	public final static String DB_NAME = "new";
+	public final static String DB_NAME = "bolubolu";
 
 	/**
-	 * Mysql 数据库连接用户名
+	 * 数据库连接用户名
 	 */
 	public final static String DB_USER_NAME = "sa";
 
 	/**
-	 * Mysql 数据库连接密码
+	 * 数据库连接密码
 	 */
-	public final static String DB_USER_PASSWORD = "123";
+	public final static String DB_USER_PASSWORD = "sa123";
 }
