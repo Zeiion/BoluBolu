@@ -32,7 +32,7 @@ public final class ServerInfo {
 	/**
 	 * 数据库名称
 	 */
-	public final static String DB_NAME = "new";
+	public final static String DB_NAME = "bolubolu";
 
 	/**
 	 * 数据库连接用户名
@@ -42,5 +42,5 @@ public final class ServerInfo {
 	/**
 	 * 数据库连接密码
 	 */
-	public final static String DB_USER_PASSWORD = "123";
+	public final static String DB_USER_PASSWORD = "sa123";
 }

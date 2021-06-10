@@ -205,45 +205,47 @@ public final class MainWindow extends JFrame implements ActionListener {
 				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 				jfc.showDialog(new JLabel(), "选择");
 				File file = jfc.getSelectedFile();
-				if (file.isDirectory()) {
-					System.out.println("文件夹:" + file.getAbsolutePath());
-				} else if (file.isFile()) {
-					System.out.println("文件:" + file.getAbsolutePath());
-					Image i =
-						new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-					avatarBtn.setIcon(new ImageIcon(i));
-					//复制图片
-					String output = "./res/avatar/User/" + userInfo.getUserId() + ".png";
-					FileInputStream fis = null;
-					FileOutputStream fos = null;
-					try {
-						//指明需要复制的图片的路径
-						File srcFile = new File(file.getAbsolutePath());
-						//指明复制后的图片去向
-						File destFile = new File(output);
-						fis = new FileInputStream(srcFile);
-						fos = new FileOutputStream(destFile);
-						byte[] buffer = new byte[1024];
-						int len;
-						//写入数据
-						while ((len = fis.read(buffer)) != -1) {
-							fos.write(buffer, 0, len);
-						}
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} finally {
-						if (fos != null) {
-							try {
-								fos.close();
-							} catch (IOException e1) {
-								e1.printStackTrace();
+				if (file!=null) {
+					if (file.isDirectory()) {
+						System.out.println("文件夹:" + file.getAbsolutePath());
+					} else if (file.isFile()) {
+						System.out.println("文件:" + file.getAbsolutePath());
+						Image i =
+							new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+						avatar.setIcon(new ImageIcon(i));
+						//复制图片
+						String output = "./res/avatar/User/" + userInfo.getUserId() + ".png";
+						FileInputStream fis = null;
+						FileOutputStream fos = null;
+						try {
+							//指明需要复制的图片的路径
+							File srcFile = new File(file.getAbsolutePath());
+							//指明复制后的图片去向
+							File destFile = new File(output);
+							fis = new FileInputStream(srcFile);
+							fos = new FileOutputStream(destFile);
+							byte[] buffer = new byte[1024];
+							int len;
+							//写入数据
+							while ((len = fis.read(buffer)) != -1) {
+								fos.write(buffer, 0, len);
 							}
-						}
-						if (fis != null) {
-							try {
-								fis.close();
-							} catch (IOException e1) {
-								e1.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} finally {
+							if (fos != null) {
+								try {
+									fos.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+							if (fis != null) {
+								try {
+									fis.close();
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
 							}
 						}
 					}

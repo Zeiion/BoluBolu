@@ -230,21 +230,21 @@ public final class LoginWindow extends JFrame {
 				//注册账号
 				try {
 					if (String.valueOf(password.getPassword()).equals("密码")) {
-						JOptionPane.showMessageDialog(null, "请输入密码！");
+						JOptionPane.showMessageDialog(null, "请输入密码！","错误！",JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 					if (String.valueOf(password.getPassword()).equals("账号")) {
-						JOptionPane.showMessageDialog(null, "请输入账号！");
+						JOptionPane.showMessageDialog(null, "请输入账号！","错误！",JOptionPane.ERROR_MESSAGE);
 					}
-					if (dataCheck.checkRegister(userId.getText().trim())) {
-						JOptionPane.showMessageDialog(null, "用户已存在！");
+					if (dataCheck.checkName(userId.getText().trim())) {
+						JOptionPane.showMessageDialog(null, "用户已存在！","错误！",JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 					if (dataCheck
 						.register(userId.getText().trim(), Verify.getMd5(String.valueOf(password.getPassword())))) {
-						JOptionPane.showMessageDialog(null, "注册成功！");
+						JOptionPane.showMessageDialog(null, "注册成功！","成功！",JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "注册失败！");
+						JOptionPane.showMessageDialog(null, "注册失败！","错误！",JOptionPane.ERROR_MESSAGE);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -304,21 +304,23 @@ public final class LoginWindow extends JFrame {
 					}
 				});
 				ImageIcon i = new ImageIcon("./res/UI/loginUI/radioTick.png");
-				Image i1 = i.getImage().getScaledInstance(35, 35, SCALE_SMOOTH);
-				i = new ImageIcon(i1);
+				i.setImage(i.getImage().getScaledInstance(35,35, SCALE_SMOOTH));
+				//Image i1 = i.getImage().getScaledInstance(35, 35, SCALE_SMOOTH);
+				//i = new ImageIcon(i);
 				putup.setIcon(i);
 				changingPassword.add(putup);
 				putup.setBounds(325, 170, 35, 35);
 				putup.addActionListener(new ActionListener() {
 					@Override public void actionPerformed(ActionEvent e) {
 						if (pressingPassword.getText().trim().equals("请输入需要找回密码的账号！")) {
-							JOptionPane.showMessageDialog(changingPassword, "请输入账号！");
+							JOptionPane.showMessageDialog(changingPassword, "请输入账号！","错误！",JOptionPane.ERROR_MESSAGE);
 						} else {
 							if (dataCheck.getPassword(pressingPassword.getText()) != null) {
 								JOptionPane.showMessageDialog(changingPassword,
-									"您的密码是：" + dataCheck.getPassword(pressingPassword.getText()).trim());
+									"您的密码是：" + dataCheck.getPassword(pressingPassword.getText()).trim(),
+										"找回密码成功",JOptionPane.INFORMATION_MESSAGE);
 							} else {
-								JOptionPane.showMessageDialog(changingPassword, "找回密码失败！");
+								JOptionPane.showMessageDialog(changingPassword, "找回密码失败！","错误！",JOptionPane.ERROR_MESSAGE);
 							}
 						}
 					}
@@ -373,11 +375,11 @@ public final class LoginWindow extends JFrame {
 				password.setText(userPassword);
 				t = (char)in.read();
 				rememberPwdCheckBox.setSelected(true);
-				if (t == '1') {
-					autoLoginCheckBox.setSelected(true);
-					//自动登录
-					loginListener.actionPerformed(null);
-				}
+//				if (t == '1') {
+//					autoLoginCheckBox.setSelected(true);
+//					//自动登录
+//					loginListener.actionPerformed(null);
+//				}
 			}
 			in.close();
 		} catch (Exception e) {

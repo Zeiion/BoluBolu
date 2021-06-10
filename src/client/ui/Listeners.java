@@ -24,7 +24,12 @@ import javax.swing.SwingUtilities;
 class ExitListener implements ActionListener {
 
 	@Override public void actionPerformed(ActionEvent e) {
-		System.exit(0);
+		Object option[] = {"退出","取消"};
+		int n = JOptionPane.showOptionDialog(null,"确定要退出吗?",
+				"警告",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,option,option[0]);
+		if (n==JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
 	}
 
 }
@@ -44,13 +49,14 @@ class CloseListener implements ActionListener {
 	}
 
 	@Override public void actionPerformed(ActionEvent e) {
+
 		//不移除的话，关闭聊天框后，无法再打开
-		if (!isGroup) {
-			MainWindow.getWithFriend().remove(friendID);
-		} else {
-			MainWindow.getWithGroup().remove(friendID);
-		}
-		tempWindow.dispose();
+			if (!isGroup) {
+				MainWindow.getWithFriend().remove(friendID);
+			} else {
+				MainWindow.getWithGroup().remove(friendID);
+			}
+			tempWindow.dispose();
 	}
 }
 
