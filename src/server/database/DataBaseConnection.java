@@ -12,7 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * 连接数据库
+ * 连接数据库.
+ * <p>
+ * 这个类定义并实现了一系列与数据库有关的操作,包括数据库连接,查询,打开与关闭.
+ *
+ * @author BoluBolu
  */
 public final class DataBaseConnection {
 	/**
@@ -28,7 +32,12 @@ public final class DataBaseConnection {
 	private ResultSet resultSet = null;
 
 	/**
-	 * 连接数据库
+	 * 连接数据库.
+	 * <p>
+	 * 本方法根据数据库驱动名与数据库所在域对指定数据库进行连接.
+	 *
+	 * @throws SQLException           连接数据库失败时,抛出SQLException或ClassNotFoundException错误
+	 * @throws ClassNotFoundException 连接数据库失败时,抛出SQLException或ClassNotFoundException错误
 	 */
 	public DataBaseConnection() {
 		// 数据库驱动名
@@ -49,7 +58,13 @@ public final class DataBaseConnection {
 	}
 
 	/**
-	 * 查询数据库
+	 * 查询数据库.
+	 * <p>
+	 * 本方法根据所给的sql语句,随数据库进行查询操作,返回查询到的结果.
+	 *
+	 * @param sql 进行查询操作所需的sql语句.
+	 * @return 以Resultset的形式返回查询结果
+	 * @throws SQLException 当数据库查询失败时,抛出SQLException异常
 	 */
 	public ResultSet getFromDatabase(String sql) {
 		try {
@@ -65,7 +80,12 @@ public final class DataBaseConnection {
 	}
 
 	/**
-	 * 更新数据库
+	 * 更新数据库.
+	 * <p>
+	 * 本方法根据所给的sql语句,随数据库进行更新操作.
+	 *
+	 * @param sql 进行查询操作所需的sql语句.
+	 * @throws SQLException 当数据库查询失败时,抛出SQLException异常
 	 */
 	public void putToDatabase(String sql) {
 		try {
@@ -77,7 +97,11 @@ public final class DataBaseConnection {
 	}
 
 	/**
-	 * 关闭所有打开的连接
+	 * 关闭所有打开的连接.
+	 * <p>
+	 * 本方法关闭所有的数据库连接,包括结果集,更新集的关闭与数据库连接的关闭
+	 *
+	 * @throws SQLException 当结果集,更新集或数据库连接关闭异常时,抛出SQLException异常
 	 */
 	public void close() {
 		try {

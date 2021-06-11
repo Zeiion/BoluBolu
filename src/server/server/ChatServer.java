@@ -6,7 +6,11 @@ import java.net.ServerSocket;
 import java.util.HashMap;
 
 /**
- * 聊天服务类
+ * 聊天服务类.
+ * <p>
+ * 定义实现聊天功能所需的必要属性,如服务器socket对象,本地连接信息,端口等.
+ *
+ * @author BoluBolu.
  */
 public final class ChatServer {
 
@@ -31,7 +35,11 @@ public final class ChatServer {
 	private static HashMap<String, DataStream> clientUser = new HashMap<String, DataStream>();
 
 	/**
-	 * 构造方法
+	 * 构造方法.
+	 * <p>
+	 * 根据给定端口定义聊天服务类的属性.
+	 *
+	 * @param port 端口
 	 */
 	public ChatServer(int port) {
 		try {

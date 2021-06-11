@@ -10,20 +10,33 @@ import javax.swing.border.Border;
 
 /**
  * 圆角边框
+ *
+ * @author BoluBolu
  */
 public class RoundBorder implements Border {
+	
 	private Color color;
-
 	private int arcH = 15;
 	private int arcW = 15;
 
 	private int a, b, c, d;
 
+	/**
+	 * 默认黑色边框、间距
+	 */
 	public RoundBorder() {
 		this(Color.BLACK, 10, 15, 10, 15);
-		// 如果实例化时，没有传值，默认是黑色边框
 	}
 
+	/**
+	 * 传入边框、间距
+	 *
+	 * @param color 边框颜色
+	 * @param a     可以调节光标与边框的距离, 间接影响高度
+	 * @param b     可以调节光标与边框的距离
+	 * @param c     可以调节光标与边框的距离, 间接影响高度
+	 * @param d     可以调节光标与边框的距离
+	 */
 	public RoundBorder(Color color, int a, int b, int c, int d) {
 		this.color = color;
 		this.a = a;
@@ -33,11 +46,6 @@ public class RoundBorder implements Border {
 	}
 
 	@Override public Insets getBorderInsets(Component e) {
-
-		// top:可以调节光标与边框的距离, 间接影响高度
-		// left:可以调节光标与边框的距离
-		// bottom:可以调节光标与边框的距离, 间接影响高度
-		// right:可以调节光标与边框的距离
 		return new Insets(a, b, c, d);
 	}
 
@@ -45,7 +53,16 @@ public class RoundBorder implements Border {
 		return false;
 	}
 
-	// 改写Border父类方法
+	/**
+	 * 改写paintBorder
+	 *
+	 * @param c      组件
+	 * @param g      绘图
+	 * @param x      x轴
+	 * @param y      y轴
+	 * @param width  宽度
+	 * @param height 高度
+	 */
 	@Override public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 
 		Graphics2D g2d = (Graphics2D)g.create();

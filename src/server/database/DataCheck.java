@@ -9,10 +9,22 @@ import server.config.UserInfo.FriendsOrGroups;
 import server.server.ChatServer;
 
 /**
- * 核对数据
+ * 核对数据.
+ * <p>
+ * 本类根据项目所需实现的功能,进行对应的sql语句生成,并通过DataHBaseConnection类实现对数据库的操作.
+ *
+ * @author BoluBolu
  */
 public final class DataCheck {
 
+	/**
+	 * 查询用户是否存在.
+	 * <p>
+	 * 通过给定的用户账号,查询数据库中是否存在账号对应的用户.
+	 *
+	 * @param userId 用户账号
+	 * @return 如果对应用户存在, 返回true, 查询失败或对应用户不存在则返回false
+	 */
 	public boolean checkRegister(String userId) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
@@ -26,6 +38,14 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 查询对应用户名是否存在
+	 * <p>
+	 * 本方法通过给定的用户名,查询数据库中是否存在用户名对应的用户.
+	 *
+	 * @param name 用户名
+	 * @return 存在对应的用户返回true, 不存在对应的用户或查询失败返回false.
+	 */
 	public boolean checkName(String name) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
@@ -39,6 +59,14 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 查询并返回用户.
+	 * <p>
+	 * 本方法通过给定的用户id,查询数据库中是否存在id对应的用户,并以FriendsOrGroups的形势返回.
+	 *
+	 * @param userId 用户id
+	 * @return 如果用户不存在或查询失败返回null, 否则返回用户对应的FriendsOrGroups对象.
+	 */
 	public FriendsOrGroups checkUser(String userId) {
 		try {
 			String id;
@@ -73,6 +101,15 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 验证用户身份信息.
+	 * <p>
+	 * 根据给定的用户id和密码,查询是否存在相符的用户.
+	 *
+	 * @param userId       用户id
+	 * @param userPassword 用户密码
+	 * @return 存在相符的用户返回true, 不存在或查询失败返回false
+	 */
 	public Boolean isLoginSuccess(String userId, String userPassword) {
 		Boolean isSuccess = new Boolean(false);
 		try {
@@ -92,6 +129,15 @@ public final class DataCheck {
 		return isSuccess;
 	}
 
+	/**
+	 * 用户注册.
+	 * <p>
+	 * 根据给出的用户名与密码,在数据库中插入新用户信息,自动为用户分配主键自增的id,设置初始个性签名为"".
+	 *
+	 * @param username     用户名
+	 * @param userPassword 密码
+	 * @return 返回当前总注册用户数量.
+	 */
 	public int register(String username, String userPassword) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
@@ -114,6 +160,15 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 查询好友关系是否存在.
+	 * <p>
+	 * 根据所给的用户id及好友id,查询对应的好友关系是否存在.
+	 *
+	 * @param userId   用户id
+	 * @param friendId 好友id
+	 * @return 存在返回true, 不存在或查询失败返回false.
+	 */
 	public boolean checkFriend(String userId, String friendId) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
@@ -127,17 +182,24 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 加好友操作.
+	 * <p>
+	 * 根据所给的用户id及好友id,双向添加好友,即插入一条(我的id,好友id),再插入一条(好友id,我的id).
+	 *
+	 * @param userId   我的id
+	 * @param friendId 好友id
+	 * @return 插入成功返回true, 插入失败或异常返回false.
+	 */
 	public boolean addFriend(String userId, String friendId) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
 			String sql = "insert into dw_useruser values(?,?)";
 			dataCon.psql = dataCon.conn.prepareStatement(sql);
-			System.out.println("sql");
 			dataCon.psql.setString(1, userId);
 			dataCon.psql.setString(2, friendId);
 			dataCon.psql.executeUpdate();
 			String sql1 = "insert into dw_useruser values(?,?)";
-			System.out.println("sql2");
 			dataCon.psql = dataCon.conn.prepareStatement(sql1);
 			dataCon.psql.setString(1, friendId);
 			dataCon.psql.setString(2, userId);
@@ -149,6 +211,14 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 找回密码.
+	 * <p>
+	 * 根据给出的用户id,返回对应的用户密码.
+	 *
+	 * @param userId 用户id
+	 * @return 查询成功返回对应密码, 用户不存在或查询异常返回false.
+	 */
 	public String getPassword(String userId) {
 		try {
 			DataBaseConnection dataCon = new DataBaseConnection();
@@ -167,6 +237,15 @@ public final class DataCheck {
 		}
 	}
 
+	/**
+	 * 查询成员id列表
+	 * <p>
+	 * 根据所给sql语句与所需属性返回对应属性列表.
+	 *
+	 * @param sql sql语句
+	 * @param row 所需属性
+	 * @return 返回查询到的属性列表.
+	 */
 	private static Vector<String> getMemberFromId(String sql, String row) {
 		// 与数据库创建连接
 		DataBaseConnection dataCon = new DataBaseConnection();
@@ -189,7 +268,12 @@ public final class DataCheck {
 	}
 
 	/**
-	 * 获取好友成员
+	 * 获取好友成员.
+	 * <p>
+	 * 根据所给用户id,通过所给数据库连接查找数据库中该用户的好友账号列表.
+	 *
+	 * @param selfID 用户id.
+	 * @return 返回查询到的好友账号列表.
 	 */
 	public static Vector<String> getFriendMember(String selfID) {
 		String sqlString = "select myfriend from dw_useruser where myself = " + selfID;
@@ -197,15 +281,26 @@ public final class DataCheck {
 	}
 
 	/**
-	 * 获取群成员
+	 * 获取群聊成员.
+	 * <p>
+	 * 根据所给群聊id,通过所给数据库连接查找数据库中该群的群成员.
+	 *
+	 * @param groupId 群聊id.
+	 * @return 群聊成员账号列表.
 	 */
 	public static Vector<String> getGroupMember(String groupId) {
-		String sqlString = "select user_id from dw_usergroup where group_id = " + groupId;
+		String sqlString = "select user_id from view_usergroup where group_id = " + groupId;
 		return getMemberFromId(sqlString, "user_id");
 	}
 
 	/**
-	 * 获取好友信息
+	 * 获取用户好友信息.
+	 * <p>
+	 * 根据所给用户id,通过所给数据库连接查找数据库中该用户的好友信息.
+	 *
+	 * @param userId  用户id
+	 * @param dataCon 数据库连接
+	 * @return 返回对应用户的好友信息.
 	 */
 	public Vector<FriendsOrGroups> getUserFriends(String userId, DataBaseConnection dataCon) {
 		Vector<FriendsOrGroups> friends = new Vector<>();
@@ -230,7 +325,13 @@ public final class DataCheck {
 	}
 
 	/**
-	 * 获取群信息
+	 * 获取用户所参加的群.
+	 * <p>
+	 * 根据所给用户id,通过所给数据库连接查找数据库中该用户加入的群.
+	 *
+	 * @param userId  用户id
+	 * @param dataCon 数据库连接
+	 * @return 查询到的群列表.
 	 */
 	public Vector<FriendsOrGroups> getUserGroups(String userId, DataBaseConnection dataCon) {
 		Vector<FriendsOrGroups> groups = new Vector<FriendsOrGroups>();
@@ -255,7 +356,12 @@ public final class DataCheck {
 	}
 
 	/**
-	 * 获取用户信息(个人资料 群 好友)
+	 * 获取用户信息.
+	 * <p>
+	 * 根据所给userid信息,返回对应用户的群聊,好友等信息.
+	 *
+	 * @param userId 所给用户id.
+	 * @return 返回userid对应的用户对象.
 	 */
 	public UserInfo getUserInfo(String userId) {
 		// 用户个人信息
@@ -295,7 +401,14 @@ public final class DataCheck {
 	}
 
 	/**
-	 * 获取聊天记录
+	 * 获取聊天记录.
+	 * <p>
+	 * 查询对应两个id之间的聊天记录或群聊的聊天记录并返回.
+	 *
+	 * @param fromId  消息发出者
+	 * @param toId    消息接收者
+	 * @param isGroup 是否是群聊
+	 * @return 查询到的消息记录列表.
 	 */
 	public Vector<String> getChatRecord(String fromId, String toId, String isGroup) {
 		Vector<String> all = new Vector<String>();

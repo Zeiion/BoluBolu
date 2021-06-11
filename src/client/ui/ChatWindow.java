@@ -31,23 +31,65 @@ import javax.swing.border.EmptyBorder;
 /**
  * 聊天窗口
  *
- * @author Zeiion
- * @version: 1.1
+ * @author BoluBoLu
  */
 public final class ChatWindow extends JFrame {
-
+	/**
+	 * 聊天窗口的最大化，最小化，关闭和发送消息按钮
+	 */
 	private JButton minBtn, closeBtn, maxBtn, sendButton;
+	/**
+	 * 聊天窗口位置移动
+	 */
 	private WindowMoveAdapter adapter;
+	/**
+	 * 聊天窗口的顶部和输入部分
+	 */
 	private JPanel headPanel, inputPanel;
+	/**
+	 * 好友的头像，用户名和签名
+	 */
 	private JLabel friendAvatar, friendName, friendTag;
+	/**
+	 * 好友头像的文件名，用户名，个性签名，ID，自己的ID和姓名
+	 */
 	private String friendAvatarString, friendNameString, friendTagString, friendID, selfID, selfName;
+	/**
+	 * 主区域和群区域
+	 */
 	private Box mainBox, groupBox;
+	/**
+	 * 聊天框、输入框、群的滑动条
+	 */
 	private JScrollPane chatScroll, inputScroll, groupScroll;
+	/**
+	 * 文本输入域
+	 */
 	private JTextArea input;
+	/**
+	 * 头像
+	 */
 	private Image avatar;
+	/**
+	 * 消息数量
+	 */
 	private int messageNum = 0;
+	/**
+	 * 是否是群
+	 */
 	private boolean isGroup;
 
+	/**
+	 * 聊天框的构造方法
+	 *
+	 * @param selfID             自己的ID
+	 * @param selfName           自己的用户名
+	 * @param friendID           好友的ID
+	 * @param friendAvatarString 好友的头像文件名
+	 * @param friendNameString   好友的用户名
+	 * @param friendTagString    好友的签名内容
+	 * @param isGroup            是否是群
+	 */
 	public ChatWindow(String selfID, String selfName, String friendID, String friendAvatarString,
 		String friendNameString, String friendTagString, boolean isGroup) {
 		this.selfID = selfID;
@@ -271,6 +313,7 @@ public final class ChatWindow extends JFrame {
 		inputPanel.setLayout(null);
 		inputPanel.setBounds(0, 500, 750, 200);
 		input = new JTextArea();
+		input.setFont(new Font("黑体", Font.PLAIN, 20));
 		input.setBorder(new EmptyBorder(0, 0, 0, 0));
 		input.setBounds(0, 0, 750, 170);
 		input.setLineWrap(true);
@@ -312,20 +355,9 @@ public final class ChatWindow extends JFrame {
 		if (isGroup) {
 			groupBox = Box.createVerticalBox();
 			Vector<String> members = ServerService.getGroupMembers(friendID);
-			//			Box myBox = Box.createHorizontalBox();
-			//			JLabel myIcon = new JLabel(new ImageIcon(
-			//				GetAvatar.getAvatarImage(selfID, "./res/avatar/User/", "").getImage()
-			//					.getScaledInstance(30, 30, Image.SCALE_DEFAULT)));
-			//			myIcon.setPreferredSize(new Dimension(50, 50));
-			//			myBox.add(myIcon);
-			//			JLabel myself = new JLabel("我自己");
-			//			myself.setPreferredSize(new Dimension(50, 50));
-			//			myBox.add(myself);
-			//
-			//			groupBox.add(myBox);
 			for (int i = 0; i < members.size(); i++) {
 				String tempMember = members.get(i);
-				ImageIcon icon = new ImageIcon("./res/UI/img/defaultAvatar.jpg");
+				ImageIcon icon = new ImageIcon("./res/UI/img/defaultAvatar.png");
 				String content = "陌生人(" + tempMember + ")";
 				if (tempMember.equals(selfID)) {
 					content = "我自己";
@@ -389,14 +421,33 @@ public final class ChatWindow extends JFrame {
 		add(inputPanel);
 	}
 
+	/**
+	 * 对象的messageNum的getter方法
+	 *
+	 * @return 对象属性 messageNum
+	 */
 	public int getMessageNum() {
 		return messageNum;
 	}
 
+	/**
+	 * 对象的messageNum的setter方法
+	 *
+	 * @param messageNum 需要set的值
+	 */
 	public void setMessageNum(int messageNum) {
 		this.messageNum = messageNum;
 	}
 
+	/**
+	 * 增加消息
+	 *
+	 * @param userName 用户名
+	 * @param sendTime 发送时间
+	 * @param message  消息内容
+	 * @param isOld    是否是以前的消息
+	 * @param isSelf   是否是自己的消息
+	 */
 	public void addMessage(String userName, String sendTime, String message, boolean isOld, boolean isSelf) {
 		String head = "<html><div style =\"font-size:12px;color:#0d171f\">";
 		String tail = "</div></html>";

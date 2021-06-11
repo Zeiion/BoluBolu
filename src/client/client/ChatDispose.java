@@ -8,7 +8,11 @@ import java.awt.Rectangle;
 import java.util.HashMap;
 
 /**
- * 处理聊天记录
+ * 该类主要是用于处理从客户端发送的消息.
+ * <p>
+ * 包括群消息、好友消息、好友登录、退出状态等
+ *
+ * @author BoluBolu
  */
 public final class ChatDispose {
 	/**
@@ -32,7 +36,9 @@ public final class ChatDispose {
 	private static String type;
 
 	/**
-	 * 开始处理服务端发送已封装的消息内容
+	 * 开始处理服务端发送已封装的消息内容.
+	 *
+	 * @param:scMessage 服务端发送的消息内容
 	 */
 	public static void execute(String scMessage) {
 		// 对接收到的消息内容进行解码

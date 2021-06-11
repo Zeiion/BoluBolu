@@ -44,22 +44,52 @@ import server.database.DataCheck;
 /**
  * 用户主窗口 显示主界面、用户的相关信息、好友等
  *
- * @author Zeiion
- * @author lyj
- * @version 1.2
+ * @author BoluBolu
  */
 public final class MainWindow extends JFrame implements ActionListener {
-
+	/**
+	 * 用户面板 跳转好友和群的按钮面板 群面板
+	 */
 	private JPanel userPanel, listPanel, groupPanel;
+	/**
+	 * 好友面板 设置为static是为了能够在好友状态变化时可以更换好友所在位置
+	 */
 	private static JPanel friendPanel;
+	/**
+	 * 最小化，关闭，签名按钮，好友项按钮，群聊项按钮，头像按钮，添加好友按钮
+	 */
 	private JButton minBtn, closeBtn, tagBtn, friendBtn, groupBtn, logoBtn, avatarBtn, addFriendBtn;
+	/**
+	 * 用户名label
+	 */
 	private JLabel nameLabel;
+	/**
+	 * 签名文本-点击签名按钮自动切换
+	 */
 	private JTextField tagTextField;
+	/**
+	 * 储存两个切换好友和群按钮的group
+	 */
 	private ButtonGroup friendGroup;
+	/**
+	 * 切换到好友列表的按钮，切换到群列表的按钮
+	 */
 	private JRadioButton friendRadio, groupRadio;
+	/**
+	 * 用户信息
+	 */
 	private User userInfo;
+	/**
+	 * 好友列表滚动框
+	 */
 	private JScrollPane friendScrollPane;
+	/**
+	 * 所有好友按钮的group,所有群聊按钮的group
+	 */
 	private ButtonGroup friendBtnGroup, groupBtnGroup;
+	/**
+	 * 日期检查
+	 */
 	private DataCheck dataCheck = new DataCheck();
 
 	public static JPanel getFriendPanel() {
@@ -134,6 +164,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 	}
 
 	private void init() {
+
 		/**
 		 * 用户板块
 		 */
@@ -145,7 +176,6 @@ public final class MainWindow extends JFrame implements ActionListener {
 		/**
 		 * logo
 		 */
-
 		ImageIcon logo = new ImageIcon("./res/UI/img/logo.png");
 		Image logoImg = logo.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
 		ImageIcon logo2 = new ImageIcon(logoImg);
@@ -254,7 +284,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		});
 
 		/**
-		 *加好友按钮
+		 * 加好友按钮
 		 */
 		ImageIcon m = new ImageIcon("./res/UI/mainUI/addFriend.png");
 		Image mm = m.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
@@ -279,17 +309,6 @@ public final class MainWindow extends JFrame implements ActionListener {
 			} else if (dataCheck.addFriend(userInfo.getUserId(), friendId)) {
 				userInfo.getFriends().add(dataCheck.checkUser(friendId));
 				JOptionPane.showMessageDialog(null, "添加好友成功！");
-				//				//更新界面
-				//				FriendsOrGroups userFriend = dataCheck.checkUser(friendId);
-				//				String friendAvatar = userFriend.getAvatar();
-				//				String friendName = userFriend.getName();
-				//				String friendTag = userFriend.getTag();
-				//				String friendID = userFriend.getId();
-				//				String friendStatus = userFriend.getStatus();
-				//				friend.put(friendID, new FriendBlock(friendAvatar, friendName, friendTag, friendID, friendStatus));
-				//				//每个宽高
-				//				friend.get(friendID).setBounds(0, (userInfo.getFriends().size() - 1) * 66, 350, 66);
-				//				friendPanel.updateUI();
 			} else {
 				JOptionPane.showMessageDialog(null, "添加好友失败！");
 			}
@@ -298,12 +317,12 @@ public final class MainWindow extends JFrame implements ActionListener {
 		/**
 		 * 用户名
 		 */
-
 		String username = userInfo.getUserName();
 		nameLabel = new JLabel(username);
 		nameLabel.setBounds(117, 60, 160, 30);
 		nameLabel.setFont(new Font("华文新魏", Font.BOLD, 24));
 		nameLabel.setForeground(Color.WHITE);
+
 		/**
 		 * 个性签名按钮
 		 */
@@ -339,7 +358,11 @@ public final class MainWindow extends JFrame implements ActionListener {
 		});
 		tagTextField.addFocusListener(new FocusListener() {
 
-			// TextField失去焦点之后变为Button并将更改后的内容传送给服务器
+			/**
+			 * TextField失去焦点之后变为Button并将更改后的内容传送给服务器
+			 *
+			 * @param e 焦点事件
+			 */
 			@Override public void focusLost(FocusEvent e) {
 				tagTextField.setVisible(false);
 				if (tagTextField.getText().equals("")) {

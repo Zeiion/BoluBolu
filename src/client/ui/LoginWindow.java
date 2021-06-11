@@ -1,5 +1,6 @@
 package client.ui;
 
+import static client.client.ServerService.sendRegister;
 import static java.awt.Image.SCALE_SMOOTH;
 
 import com.sun.awt.AWTUtilities;
@@ -31,17 +32,36 @@ import server.database.DataCheck;
 /**
  * 登录窗口
  *
- * @version: 1.1
- * @author: Zeiion
+ * @author BoluBolu
  */
 public final class LoginWindow extends JFrame {
-
+	/**
+	 * 用户ID
+	 */
 	private JTextField userId;
+	/**
+	 * 左侧图像label 记住密码label 自动登录label 头像label
+	 */
 	private JLabel leftLabel, rememberPwd, autoLogin, headPortrait;
+	/**
+	 * 密码
+	 */
 	private JPasswordField password;
+	/**
+	 * 登录，找回密码，关闭，最小化按钮
+	 */
 	private JButton loginBtn, findPwdBtn, registerBtn, closeBtn, minBtn;
+	/**
+	 * 是否记住密码和自动登录的选择框
+	 */
 	private JCheckBox rememberPwdCheckBox, autoLoginCheckBox;
+	/**
+	 * 主区域
+	 */
 	private JPanel mainPanel;
+	/**
+	 * 修改密码的窗体
+	 */
 	private JFrame changingPassword = new JFrame();
 	DataCheck dataCheck = new DataCheck();
 
@@ -241,11 +261,11 @@ public final class LoginWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "用户已存在！", "错误！", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					int index = dataCheck
-						.register(userId.getText().trim(), Verify.getMd5(String.valueOf(password.getPassword())));
-					System.out.println(index);
+					int index =
+						sendRegister(userId.getText().trim(), Verify.getMd5(String.valueOf(password.getPassword())));
+					System.out.println("注册账号" + (100 + index));
 					if (index > 0) {
-						JOptionPane.showMessageDialog(null, "注册成功！\n您的账号为" + (101 + index), "成功！",
+						JOptionPane.showMessageDialog(null, "注册成功！\n您的账号为" + (100 + index), "成功！",
 							JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						JOptionPane.showMessageDialog(null, "注册失败！", "错误！", JOptionPane.ERROR_MESSAGE);

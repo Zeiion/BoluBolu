@@ -8,14 +8,19 @@ import javax.swing.JPanel;
 /**
  * 可以设置背景图片的JPanel
  *
- * @author Zeiion
+ * @author BoluBolu
  */
 public class ImagePanel extends JPanel {
 
+	/**
+	 * 背景图片
+	 */
 	Image img;
 
 	/**
 	 * 构造函数制定JPanel的大小
+	 *
+	 * @param img 更改后的图片背景
 	 */
 	public ImagePanel(Image img) {
 		this.img = img;
@@ -27,6 +32,8 @@ public class ImagePanel extends JPanel {
 
 	/**
 	 * 画出背景
+	 *
+	 * @param g 传入的图形
 	 */
 	@Override protected void paintComponent(Graphics g) {
 		// 清屏

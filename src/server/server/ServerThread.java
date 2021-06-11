@@ -6,14 +6,20 @@ import java.net.Socket;
 import server.config.ServerInfo;
 
 /**
- * 用于建立服务器的ServerSocket
+ * 建立服务器的 server socket.
+ * <p>
+ * 定义服务器类实现需要的socket等信息,并动态接收用户连接.
+ *
+ * @author BoluBolu
  */
 public final class ServerThread implements Runnable {
 
 	private static ServerSocket serverSocket = new ChatServer(ServerInfo.VERIFY_PORT).getServerSocket();
 
 	/**
-	 * 等待用户连接，如果连接成功为其单独分配线程处理
+	 * 接受用户连接.
+	 * <p>
+	 * 等待用户连接，如果连接成功为其单独分配线程处理.
 	 */
 	@Override public void run() {
 		try {
@@ -21,7 +27,7 @@ public final class ServerThread implements Runnable {
 				// 等待用户连接
 				Socket userSocket = serverSocket.accept();
 
-				System.out.println(userSocket.getInetAddress() + " 尝试连接");
+				System.out.println("尝试连接 " + userSocket.getInetAddress());
 
 				// 为用户接入创建一个连接线程，并验证登录是否合法
 				new Thread(new ConnectThread(userSocket)).start();

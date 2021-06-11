@@ -11,13 +11,27 @@ import javax.swing.JRadioButton;
 /**
  * 群聊列表项
  *
- * @author Zeiion
+ * @BoluBolu
  */
 public class GroupBlock extends JRadioButton {
-
+	/**
+	 * 好友头像,好友名,好友签名,好友ID
+	 */
 	private String friendAvatar, friendName, friendTag, friendID;
+	/**
+	 * 好友头像,好友名,好友签名,好友ID的label
+	 */
 	private JLabel friendAvatarLabel, friendNameLabel, friendTagLabel;
-
+ 
+	/**
+	 * 群聊列表项的构造方法
+	 *
+	 * @param friendAvatar 好友头像
+	 * @param friendName   好友姓名
+	 * @param friendTag    好友签名
+	 * @param friendID     好友ID
+	 * @param avatarPath   好友头像路径
+	 */
 	public GroupBlock(String friendAvatar, String friendName, String friendTag, String friendID, String avatarPath) {
 		this.friendAvatar = friendAvatar;
 		this.friendName = friendName;
@@ -51,22 +65,47 @@ public class GroupBlock extends JRadioButton {
 		this.add(friendTagLabel);
 	}
 
+	/**
+	 * 好友头像的getter方法
+	 *
+	 * @return 好友头像
+	 */
 	public String getFriendAvatar() {
 		return friendAvatar;
 	}
 
+	/**
+	 * 好友名的getter方法
+	 *
+	 * @return 好友名
+	 */
 	public String getFriendName() {
 		return friendName;
 	}
 
+	/**
+	 * 好友签名的getter方法
+	 *
+	 * @return 好友签名
+	 */
 	public String getFriendTag() {
 		return friendTag;
 	}
 
+	/**
+	 * 好友ID的getter方法
+	 *
+	 * @return 好友ID
+	 */
 	public String getFriendID() {
 		return friendID;
 	}
 
+	/**
+	 * 好友头像的setter方法
+	 *
+	 * @param friendAvatar 好友头像
+	 */
 	public void setFriendAvatar(String friendAvatar) {
 		this.friendAvatar = friendAvatar;
 		friendAvatarLabel.setIcon(new ImageIcon(
@@ -74,11 +113,21 @@ public class GroupBlock extends JRadioButton {
 				.getScaledInstance(40, 40, Image.SCALE_DEFAULT)));
 	}
 
+	/**
+	 * 好友名的setter方法
+	 *
+	 * @param friendName 好友名
+	 */
 	public void setFriendName(String friendName) {
 		this.friendName = friendName;
 		friendNameLabel.setText(friendName);
 	}
 
+	/**
+	 * 好友签名的setter方法
+	 *
+	 * @param friendTag 好友签名
+	 */
 	public void setFriendTag(String friendTag) {
 		this.friendTag = friendTag;
 		friendTagLabel.setText(friendTag);

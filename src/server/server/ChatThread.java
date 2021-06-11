@@ -1,5 +1,3 @@
-
-
 package server.server;
 
 import java.io.IOException;
@@ -7,7 +5,11 @@ import java.net.Socket;
 import server.config.ServerInfo;
 
 /**
- * 服务器聊天端口的监听，等待用户连接
+ * 服务器聊天端口的监听，等待用户连接.
+ * <p>
+ * 本类定义了服务器聊天监听端口，实现了对新用户登录的实时监听，与对用户登录，在线，退出登录等状态的监听.
+ *
+ * @auther BoluBolu
  */
 public final class ChatThread implements Runnable {
 
@@ -21,6 +23,11 @@ public final class ChatThread implements Runnable {
 		this.userId = userId;
 	}
 
+	/**
+	 * 用户接入操作.
+	 * <p>
+	 * 用户接入后创建线程的run方法，通过socket实现tcp连接，从而传输聊天数据实现聊天功能.
+	 */
 	@Override public void run() {
 		// 先与客户端建立聊天端口的连接
 		try {
