@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JCheckBox;
@@ -135,10 +137,7 @@ class LoginListener implements ActionListener {
 	public void setIsAutoLogin(JCheckBox isAutoLogin) {
 		this.isAutoLogin = isAutoLogin;
 	}
-
-	/**
-	 * @param e
-	 */
+	
 	@Override public void actionPerformed(ActionEvent e) {
 
 		new Thread(new Runnable() {
@@ -193,6 +192,17 @@ class LoginListener implements ActionListener {
 									System.out.println("登录监听器错误：" + e);
 								}
 
+							} else {
+								//不记住密码，清空文件
+								try {
+									FileOutputStream out = new FileOutputStream("./res/save/saveInfo.txt");
+									out.flush();
+									out.close();
+								} catch (FileNotFoundException fileNotFoundException) {
+									fileNotFoundException.printStackTrace();
+								} catch (IOException ioException) {
+									ioException.printStackTrace();
+								}
 							}
 							tempWindow.dispose();
 

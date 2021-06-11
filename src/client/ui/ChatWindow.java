@@ -43,9 +43,9 @@ public final class ChatWindow extends JFrame {
 	 */
 	private WindowMoveAdapter adapter;
 	/**
-	 * 聊天窗口的顶部和输入部分
+	 * 聊天窗口的顶部、输入框、群成员列表
 	 */
-	private JPanel headPanel, inputPanel;
+	private JPanel headPanel, inputPanel, groupListPanel;
 	/**
 	 * 好友的头像，用户名和签名
 	 */
@@ -164,13 +164,19 @@ public final class ChatWindow extends JFrame {
 					maxBtn.setBounds(getWidth() - 40, 0, 20, 20);
 					minBtn.setBounds(getWidth() - 60, 0, 20, 20);
 					headPanel.setBounds(0, 0, getWidth(), 120);
-					friendTag.setBounds(71, 51, headPanel.getWidth() - 455, 15);
-					chatScroll.setBounds(0, 120, getWidth(), getHeight() - 320);
-
-					inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
+					if (isGroup) {
+						chatScroll.setBounds(0, 120, getWidth() - 200, getHeight() - 320);
+						inputPanel.setBounds(0, getHeight() - 200, getWidth() - 200, 200);
+						sendButton.setBounds(inputPanel.getWidth() - 280, inputPanel.getHeight() - 28, 70, 24);
+						groupListPanel.setBounds(getWidth() - 200, 120, 200, getHeight() - 120);
+						groupScroll.setBounds(0, 0, 200, getHeight() - 120);
+					} else {
+						chatScroll.setBounds(0, 120, getWidth(), getHeight() - 320);
+						inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
+						sendButton.setBounds(inputPanel.getWidth() - 80, inputPanel.getHeight() - 28, 70, 24);
+					}
 					input.setBounds(0, 0, inputPanel.getWidth(), 170);
 					inputScroll.setBounds(0, 0, inputPanel.getWidth(), 170);
-					sendButton.setBounds(inputPanel.getWidth() - 80, inputPanel.getHeight() - 28, 70, 24);
 					adapter.setCanMove(false);
 				} else if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {
 					//最小化，改变窗体大小
@@ -182,12 +188,19 @@ public final class ChatWindow extends JFrame {
 					maxBtn.setBounds(getWidth() - 40, 0, 20, 20);
 					minBtn.setBounds(getWidth() - 60, 0, 20, 20);
 					headPanel.setBounds(0, 0, getWidth(), 120);
-					friendTag.setBounds(55, 31, getWidth() - 400, 15);
-					chatScroll.setBounds(0, 120, getWidth(), getHeight() - 320);
-					inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
+					if (isGroup) {
+						chatScroll.setBounds(0, 120, getWidth() - 200, getHeight() - 320);
+						inputPanel.setBounds(0, getHeight() - 200, getWidth() - 200, 200);
+						sendButton.setBounds(inputPanel.getWidth() - 280, inputPanel.getHeight() - 28, 70, 24);
+						groupListPanel.setBounds(750, 120, 200, 580);
+						groupScroll.setBounds(0, 0, 200, 580);
+					} else {
+						chatScroll.setBounds(0, 120, getWidth(), getHeight() - 320);
+						inputPanel.setBounds(0, getHeight() - 200, getWidth(), 200);
+						sendButton.setBounds(inputPanel.getWidth() - 80, inputPanel.getHeight() - 28, 70, 24);
+					}
 					input.setBounds(0, 0, inputPanel.getWidth(), 170);
 					inputScroll.setBounds(0, 0, inputPanel.getWidth(), 170);
-					sendButton.setBounds(inputPanel.getWidth() - 80, inputPanel.getHeight() - 28, 70, 24);
 					adapter.setCanMove(true);
 				}
 			}
@@ -390,11 +403,10 @@ public final class ChatWindow extends JFrame {
 			groupScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			// 设置滚动速率
 			groupScroll.getVerticalScrollBar().setUnitIncrement(16);
-			//			groupScroll.setBounds(750, 120, 200, 580);
 			groupScroll.setBounds(0, 0, 200, 580);
 			groupScroll.setBorder(new EmptyBorder(0, 0, 0, 0));
 
-			JPanel groupListPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/group.png"));
+			groupListPanel = new ImagePanel(Toolkit.getDefaultToolkit().createImage("./res/UI/img/group.png"));
 			groupListPanel.setBounds(750, 120, 200, 580);
 			groupListPanel.add(groupScroll);
 			groupListPanel.setBorder(new EmptyBorder(0, 4, 0, 0));
