@@ -295,7 +295,12 @@ public final class MainWindow extends JFrame implements ActionListener {
 		addFriendBtn.setContentAreaFilled(false);
 		addFriendBtn.addActionListener((e) -> {
 			String friendId = JOptionPane.showInputDialog("请输入对方账号！");
-			if (friendId.isEmpty()) {
+			try {
+				//未输入
+				if (friendId.isEmpty()) {
+					return;
+				}
+			} catch (Exception exception) {
 				return;
 			}
 			if (!dataCheck.checkRegister(friendId)) {

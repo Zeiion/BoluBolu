@@ -42,7 +42,7 @@ public final class ServerInfo {
 	/**
 	 * 数据库连接密码
 	 */
-	public static String DB_USER_PASSWORD = "123";
+	public static String DB_USER_PASSWORD = "sa123";
 
 	/**
 	 * 局域网连接，更改服务器地址

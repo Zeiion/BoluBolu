@@ -73,6 +73,7 @@ public final class LoginWindow extends JFrame {
 		/**
 		 * 主界面
 		 */
+
 		mainPanel = new JPanel();
 		mainPanel.setLayout(null);
 		mainPanel.setBounds(0, 0, 800, 500);
@@ -210,6 +211,9 @@ public final class LoginWindow extends JFrame {
 		 * 自动登录框
 		 */
 		autoLoginCheckBox = new JCheckBox();
+
+//		autoLoginCheckBox.setSelected(false);
+
 		autoLoginCheckBox.setMargin(new Insets(0, 0, 0, 0));
 		autoLoginCheckBox.setBounds(660, 331, 17, 17);
 		autoLoginCheckBox.setIcon(new ImageIcon("./res/UI/loginUI/radioOrigin.png"));
@@ -254,8 +258,13 @@ public final class LoginWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "请输入密码！", "错误！", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if ("账号".equals(String.valueOf(password.getPassword()))) {
+					if ("账号".equals(String.valueOf(userId.getText()))) {
 						JOptionPane.showMessageDialog(null, "请输入账号！", "错误！", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					if (("".equals(userId.getText().trim())||("".equals(String.valueOf(password.getPassword()))))){
+						JOptionPane.showMessageDialog(null, "账号或密码不能为空！", "错误！", JOptionPane.ERROR_MESSAGE);
+						return;
 					}
 					if (dataCheck.checkName(userId.getText().trim())) {
 						JOptionPane.showMessageDialog(null, "用户已存在！", "错误！", JOptionPane.ERROR_MESSAGE);

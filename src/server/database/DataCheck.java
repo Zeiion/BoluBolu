@@ -33,7 +33,6 @@ public final class DataCheck {
 			dataCon.psql.setString(1, userId);
 			return dataCon.psql.executeQuery().next();
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
