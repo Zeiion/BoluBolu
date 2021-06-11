@@ -232,10 +232,11 @@ public final class MainWindow extends JFrame implements ActionListener {
 		avatarBtn.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) {
 				JFileChooser jfc = new JFileChooser();
-				jfc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				jfc.showDialog(new JLabel(), "选择");
+				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int flag = jfc.showDialog(new JLabel(), "选择");
 				File file = jfc.getSelectedFile();
-				if (file != null) {
+				if (flag == JFileChooser.APPROVE_OPTION && (file.getName().endsWith(".png") || file.getName()
+					.endsWith(".jpg"))) {
 					if (file.isDirectory()) {
 						System.out.println("文件夹:" + file.getAbsolutePath());
 					} else if (file.isFile()) {
@@ -244,7 +245,8 @@ public final class MainWindow extends JFrame implements ActionListener {
 							.getScaledInstance(80, 80, Image.SCALE_DEFAULT);
 						avatarBtn.setIcon(new ImageIcon(i));
 						//复制图片
-						String output = "./res/avatar/User/" + userInfo.getUserId() + ".png";
+						int begin = file.getName().indexOf('.');
+						String output = "./res/avatar/User/" + userInfo.getUserId() + file.getName().substring(begin);
 						FileInputStream fis = null;
 						FileOutputStream fos = null;
 						try {
@@ -280,6 +282,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 						}
 					}
 				}
+
 			}
 		});
 
