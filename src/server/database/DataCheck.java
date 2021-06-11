@@ -416,7 +416,7 @@ public final class DataCheck {
 		// 创建数据库连接对象
 		DataBaseConnection dataCon = new DataBaseConnection();
 		String sqlString = "";
-		if (isGroup.equals("true")) {
+		if ("true".equals(isGroup)) {
 			sqlString =
 				"select gchat_uid fromid,gchat_gid toid,gchat_message message,gchat_datetime timer from dw_groupchat where gchat_gid = "
 					+ toId;

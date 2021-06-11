@@ -356,7 +356,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 			@Override public void actionPerformed(ActionEvent e) {
 				tagBtn.setVisible(false);
 				tagTextField.setVisible(true);
-				if (tagBtn.getText().equals("编辑个性签名")) {
+				if ("编辑个性签名".equals(tagBtn.getText())) {
 					tagTextField.setText("");
 				} else {
 					tagTextField.setText(tagBtn.getText());
@@ -487,7 +487,7 @@ public final class MainWindow extends JFrame implements ActionListener {
 		friendBtnGroup = new ButtonGroup();
 		Collections.sort(userInfo.getFriends(), new Comparator<FriendsOrGroups>() {
 			@Override public int compare(FriendsOrGroups f1, FriendsOrGroups f2) {
-				if (f2.getStatus().equals("在线")) {
+				if ("在线".equals(f2.getStatus())) {
 					return 1;
 				} else {
 					return -1;

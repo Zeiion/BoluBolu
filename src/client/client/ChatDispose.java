@@ -55,7 +55,7 @@ public final class ChatDispose {
 			HashMap<String, ChatWindow> model;
 
 			// 接收到的消息是从好友发送来的
-			if (type.equals("toFriend")) {
+			if ("toFriend".equals(type)) {
 
 				model = MainWindow.getFriendChat();
 
@@ -66,7 +66,7 @@ public final class ChatDispose {
 				}
 			}
 			// 接收到的消息是从某个群发送来的
-			else if (type.equals("toGroup")) {
+			else if ("toGroup".equals(type)) {
 				model = MainWindow.getGroupChat();
 				if (model.containsKey(toId)) {
 					// 聊天面板显示用户昵称
@@ -79,15 +79,15 @@ public final class ChatDispose {
 		} // 接收的内容是为了改变用户状态（在线/离线）
 		else if (res.length == 3) {
 			/** res[0]:验证标识、res[1]:状态信息、res[2]:好友ID */
-			if (res[0].equals("OnlineSituation")) {
+			if ("OnlineSituation".equals(res[0])) {
 				if (MainWindow.getFriend().containsKey(res[2])) {
 					FriendBlock f = MainWindow.getFriend().get(res[2]);
 					f.setFriendStatus(res[1]);
-					if (res[1].equals("在线")) {
+					if ("在线".equals(res[1])) {
 						f.getFriendStatusLabel().setFont(new Font("黑体", Font.BOLD, 13));
 						for (int i = 0; i < MainWindow.getFriendPanel().getComponentCount(); i++) {
 							FriendBlock fb = (FriendBlock)MainWindow.getFriendPanel().getComponent(i);
-							if (fb.getFriendStatus().equals("离线")) {
+							if ("离线".equals(fb.getFriendStatus())) {
 								Rectangle rfb = fb.getBounds();
 								Rectangle rf = f.getBounds();
 								f.setBounds(rfb);
@@ -96,11 +96,11 @@ public final class ChatDispose {
 								break;
 							}
 						}
-					} else if (res[1].equals("离线")) {
+					} else if ("离线".equals(res[1])) {
 						f.getFriendStatusLabel().setFont(new Font("黑体", Font.PLAIN, 13));
 						for (int i = MainWindow.getFriendPanel().getComponentCount() - 1; i >= 0; i--) {
 							FriendBlock fb = (FriendBlock)MainWindow.getFriendPanel().getComponent(i);
-							if (fb.getFriendStatus().equals("在线")) {
+							if ("在线".equals(fb.getFriendStatus())) {
 								Rectangle rfb = fb.getBounds();
 								Rectangle rf = f.getBounds();
 								f.setBounds(rfb);

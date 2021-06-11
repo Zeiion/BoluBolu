@@ -179,7 +179,7 @@ public final class LoginWindow extends JFrame {
 			}
 
 			@Override public void focusGained(FocusEvent e) {
-				if (String.valueOf(password.getPassword()).trim().equals("密码")) {
+				if ("密码".equals(String.valueOf(password.getPassword()).trim())) {
 					password.setEchoChar('•');
 					password.setForeground(Color.BLACK);
 					password.setText("");
@@ -315,7 +315,7 @@ public final class LoginWindow extends JFrame {
 				pressingPassword.setText("请输入需要找回密码的账号！");
 				pressingPassword.addFocusListener(new FocusListener() {
 					@Override public void focusGained(FocusEvent e) {
-						if (pressingPassword.getText().trim().equals("请输入需要找回密码的账号！")) {
+						if ("请输入需要找回密码的账号！".equals(pressingPassword.getText().trim())) {
 							pressingPassword.setText("");
 						}
 					}
@@ -335,7 +335,7 @@ public final class LoginWindow extends JFrame {
 				putUp.setBounds(325, 210, 30, 30);
 				putUp.addActionListener(new ActionListener() {
 					@Override public void actionPerformed(ActionEvent e) {
-						if (pressingPassword.getText().trim().equals("请输入需要找回密码的账号！")) {
+						if ("请输入需要找回密码的账号！".equals(pressingPassword.getText().trim())) {
 							JOptionPane.showMessageDialog(changingPassword, "请输入账号！", "错误！", JOptionPane.ERROR_MESSAGE);
 						} else {
 							if (dataCheck.getPassword(pressingPassword.getText()) != null) {

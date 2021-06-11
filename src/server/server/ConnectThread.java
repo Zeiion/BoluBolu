@@ -17,7 +17,7 @@ import server.database.DataCheck;
  */
 public final class ConnectThread implements Runnable {
 
-	private Socket userSocket;
+	private final Socket userSocket;
 
 	public ConnectThread(Socket userSocket) {
 		this.userSocket = userSocket;
@@ -45,8 +45,8 @@ public final class ConnectThread implements Runnable {
 			// 登录验证
 			case "Verify":
 				Verify loginVerify = (Verify)obj;
-				if (ChatServer.getClientUser().containsKey(loginVerify.getUserId())) // 该用户已登录
-				{
+				// 该用户已登录
+				if (ChatServer.getClientUser().containsKey(loginVerify.getUserId())) {
 					result = "Repeat";
 				} else {
 					result = check.isLoginSuccess(loginVerify.getUserId(), loginVerify.getUserPassword());
@@ -67,25 +67,25 @@ public final class ConnectThread implements Runnable {
 					result = check.getUserInfo(field);
 				} else if (field.startsWith("sendRegister")) {
 					// 获取聊天记录
-					String res[] = field.split("```", 4);
+					String[] res = field.split("```", 4);
 					if (res.length == 3) {
 						/**
-						 * res[0]：sendRegister
-						 * res[1]：username
-						 * res[2]：password
+						 * res[0]：sendRegister 指令
+						 * res[1]：username 用户名
+						 * res[2]：password 密码
 						 */
 						result = check.register(res[1], res[2]);
 					}
 				} else if (field.startsWith("getChatRecord")) {
 
 					// 获取聊天记录
-					String res[] = field.split("```", 4);
+					String[] res = field.split("```", 4);
 					if (res.length == 4) {
 						/**
-						 * res[0]：getChatRecord
-						 * res[1]：fromId
-						 * res[2]：toId
-						 * res[3]：isGroup
+						 * res[0]：getChatRecord 指令
+						 * res[1]：fromId 发送者
+						 * res[2]：toId 接受者
+						 * res[3]：isGroup 是否群聊
 						 */
 						result = check.getChatRecord(res[1], res[2], res[3]);
 					}
@@ -94,12 +94,12 @@ public final class ConnectThread implements Runnable {
 					result = DataCheck.getGroupMember(field);
 				} else if (field.startsWith("setTag")) {
 					// 替换前缀
-					String res[] = field.split("```", 3);
+					String[] res = field.split("```", 3);
 					if (res.length == 3) {
 						/**
-						 * res[0]：setTag
-						 * res[1]：myId
-						 * res[2]：newTag
+						 * res[0]：setTag 指令
+						 * res[1]：myId 我的id
+						 * res[2]：newTag 新个性签名
 						 */
 						DataBaseConnection con = new DataBaseConnection();
 						String sql = "UPDATE dw_user SET user_tag = '" + res[2] + "' WHERE user_id = " + res[1];

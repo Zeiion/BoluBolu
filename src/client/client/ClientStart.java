@@ -36,7 +36,7 @@ public class ClientStart {
 					continue;
 				}
 				String opt = input[1];
-				if (opt.equals("client")) {
+				if ("client".equals(opt)) {
 					new LoginWindow();
 					continue;
 				} else {

@@ -38,7 +38,7 @@ public class ServerStart {
 					continue;
 				}
 				String opt = input[1];
-				if (opt.equals("server")) {
+				if ("server".equals(opt)) {
 					new Thread(new ServerThread()).start();
 					System.out.println("服务器地址为：" + ServerInfo.SERVER_IP);
 					System.out.println("————服务器已成功开启————");
