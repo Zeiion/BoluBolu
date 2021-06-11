@@ -99,14 +99,14 @@ public final class DataStream implements Runnable {
 			String toId = res[2];
 			SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			message = sDateFormat.format(new Date()) + "```" + message;
-			if (type.equals("toFriend")) {
+			if ("toFriend".equals(type)) {
 				if (ChatServer.getClientUser().containsKey(toId)) {
 					ChatServer.getClientUser().get(toId).send(message);
 				} else {
 					// 好友不在线的情况
 				}
 				printToDatabase(res[1], res[2], res[3], false);
-			} else if (type.equals("toGroup")) {
+			} else if ("toGroup".equals(type)) {
 				Vector<String> groups = DataCheck.getGroupMember(toId);
 				for (int i = 0; i < groups.size(); i++) {
 					if (groups.get(i).equals(userId) == false && ChatServer.getClientUser()
