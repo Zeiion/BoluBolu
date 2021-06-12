@@ -12,18 +12,19 @@ import server.config.ServerInfo;
  */
 public class ServerStart {
 	public static void main(String[] args) {
+		System.out.println("请最大化以显示全貌！");
 		System.out.println(
-			"─██████████████───██████████████─██████─────────██████──██████──██████████████───██████████████─██████─────────██████──██████─\n"
-				+ "─██          ██───██          ██─██  ██─────────██  ██──██  ██──██          ██───██          ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██  ██████  ██───██  ██████  ██─██  ██─────────██  ██──██  ██──██  ██████  ██───██  ██████  ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██  ██──██  ██───██  ██──██  ██─██  ██─────────██  ██──██  ██──██  ██──██  ██───██  ██──██  ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██  ██████  ████─██  ██──██  ██─██  ██─────────██  ██──██  ██──██  ██████  ████─██  ██──██  ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██            ██─██  ██──██  ██─██  ██─────────██  ██──██  ██──██            ██─██  ██──██  ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██  ████████  ██─██  ██──██  ██─██  ██─────────██  ██──██  ██──██  ████████  ██─██  ██──██  ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██  ██────██  ██─██  ██──██  ██─██  ██─────────██  ██──██  ██──██  ██────██  ██─██  ██──██  ██─██  ██─────────██  ██──██  ██─\n"
-				+ "─██  ████████  ██─██  ██████  ██─██  ██████████─██  ██████  ██──██  ████████  ██─██  ██████  ██─██  ██████████─██  ██████  ██─\n"
-				+ "─██            ██─██          ██─██          ██─██          ██──██            ██─██          ██─██          ██─██          ██─\n"
-				+ "─████████████████─██████████████─██████████████─██████████████──████████████████─██████████████─██████████████─██████████████─\n"
+			"─OOOOOOOOOOOOOO───OOOOOOOOOOOOOO─OOOOOO─────────OOOOOO──OOOOOO──OOOOOOOOOOOOOO───OOOOOOOOOOOOOO─OOOOOO─────────OOOOOO──OOOOOO─\n"
+				+ "─OO          OO───OO          OO─OO  OO─────────OO  OO──OO  OO──OO          OO───OO          OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO  OOOOOO  OO───OO  OOOOOO  OO─OO  OO─────────OO  OO──OO  OO──OO  OOOOOO  OO───OO  OOOOOO  OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO  OO──OO  OO───OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO──OO  OO──OO  OO───OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO  OOOOOO  OOOO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO──OO  OOOOOO  OOOO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO            OO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO──OO            OO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO  OOOOOOOO  OO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO──OO  OOOOOOOO  OO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO  OO────OO  OO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO──OO  OO────OO  OO─OO  OO──OO  OO─OO  OO─────────OO  OO──OO  OO─\n"
+				+ "─OO  OOOOOOOO  OO─OO  OOOOOO  OO─OO  OOOOOOOOOO─OO  OOOOOO  OO──OO  OOOOOOOO  OO─OO  OOOOOO  OO─OO  OOOOOOOOOO─OO  OOOOOO  OO─\n"
+				+ "─OO            OO─OO          OO─OO          OO─OO          OO──OO            OO─OO          OO─OO          OO─OO          OO─\n"
+				+ "─OOOOOOOOOOOOOOOO─OOOOOOOOOOOOOO─OOOOOOOOOOOOOO─OOOOOOOOOOOOOO──OOOOOOOOOOOOOOOO─OOOOOOOOOOOOOO─OOOOOOOOOOOOOO─OOOOOOOOOOOOOO─\n"
 				+ "──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────");
 		System.out.println(
 			"BoluBolu---请先配置数据库信息！\n" + "——————————————\n" + "输入指令介绍ヽ(･ω･´ﾒ)：\n" + "new server --- 以当前配置启动服务端\n"
